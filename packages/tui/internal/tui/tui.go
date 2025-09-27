@@ -920,7 +920,7 @@ func (a Model) View() (string, *tea.Cursor) {
 		Render(mainLayout)
 	mainLayout = lipgloss.PlaceHorizontal(
 		a.width,
-		lipgloss.Center,
+		lipgloss.Left,
 		mainLayout,
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -953,25 +953,16 @@ func (a Model) home() (string, int, int) {
 	effectiveWidth := a.width - 4
 	baseStyle := styles.NewStyle().Foreground(t.Text()).Background(t.Background())
 	base := baseStyle.Render
-	muted := styles.NewStyle().Foreground(t.TextMuted()).Background(t.Background()).Render
 
-	open := `
-                    
-█▀▀█ █▀▀█ █▀▀█ █▀▀▄ 
-█░░█ █░░█ █▀▀▀ █░░█ 
-▀▀▀▀ █▀▀▀ ▀▀▀▀ ▀  ▀ `
+	logo_text := `
+  █████╗  ██╗  ██╗  ██████╗  ███╗   ██╗  ██████╗  ██████╗  ██████╗  ███████╗
+ ██╔══██╗ ╚██╗██╔╝ ██╔═══██╗ ████╗  ██║ ██╔════╝ ██╔═══██╗ ██╔══██╗ ██╔════╝
+ ███████║  ╚███╔╝  ██║   ██║ ██╔██╗ ██║ ██║      ██║   ██║ ██║  ██║ █████╗  
+ ██╔══██║  ██╔██╗  ██║   ██║ ██║╚██╗██║ ██║      ██║   ██║ ██║  ██║ ██╔══╝  
+ ██║  ██║ ██╔╝ ██╗ ╚██████╔╝ ██║ ╚████║ ╚██████╗ ╚██████╔╝ ██████╔╝ ███████╗
+ ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═══╝  ╚═════╝  ╚═════╝  ╚═════╝  ╚══════╝`
 
-	code := `
-             ▄
-█▀▀▀ █▀▀█ █▀▀█ █▀▀█
-█░░░ █░░█ █░░█ █▀▀▀
-▀▀▀▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀`
-
-	logo := lipgloss.JoinHorizontal(
-		lipgloss.Top,
-		muted(open),
-		base(code),
-	)
+	logo := base(logo_text)
 	// cwd := app.Info.Path.Cwd
 	// config := app.Info.Path.Config
 
@@ -985,7 +976,7 @@ func (a Model) home() (string, int, int) {
 	logoAndVersion := strings.Join([]string{logo, version}, "\n")
 	logoAndVersion = lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Center,
+		lipgloss.Left,
 		logoAndVersion,
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -1005,7 +996,7 @@ func (a Model) home() (string, int, int) {
 	)
 	cmds := lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Center,
+		lipgloss.Left,
 		commandsView.View(),
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -1018,13 +1009,13 @@ func (a Model) home() (string, int, int) {
 	lines = append(lines, "")
 	lines = append(lines, "")
 
-	mainHeight := lipgloss.Height(strings.Join(lines, "\n"))
+	// mainHeight := lipgloss.Height(strings.Join(lines, "\n"))
 
 	editorView := a.editor.View()
 	editorWidth := lipgloss.Width(editorView)
 	editorView = lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Center,
+		lipgloss.Left,
 		editorView,
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -1035,14 +1026,14 @@ func (a Model) home() (string, int, int) {
 	mainLayout := lipgloss.Place(
 		effectiveWidth,
 		a.height,
-		lipgloss.Center,
-		lipgloss.Center,
+		lipgloss.Left,
+		lipgloss.Left,
 		baseStyle.Render(strings.Join(lines, "\n")),
 		styles.WhitespaceStyle(t.Background()),
 	)
 
-	editorX := max(0, (effectiveWidth-editorWidth)/2)
-	editorY := (a.height / 2) + (mainHeight / 2) - 3
+	editorX := 0
+	editorY := 16  // Fixed Y position from top
 	editorYDelta := 3
 
 	if editorLines > 1 {
@@ -1089,7 +1080,7 @@ func (a Model) chat() (string, int, int) {
 	editorHeight := max(lines, 5)
 	editorView = lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Center,
+		lipgloss.Left,
 		editorView,
 		styles.WhitespaceStyle(t.Background()),
 	)

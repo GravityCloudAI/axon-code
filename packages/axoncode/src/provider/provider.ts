@@ -1,17 +1,16 @@
-import z from "zod/v4"
-import path from "path"
-import { Config } from "../config/config"
-import { mergeDeep, sortBy } from "remeda"
 import { NoSuchModelError, type LanguageModel, type Provider as SDK } from "ai"
-import { Log } from "../util/log"
-import { BunProc } from "../bun"
-import { Plugin } from "../plugin"
-import { ModelsDev } from "./models"
-import { NamedError } from "../util/error"
+import path from "path"
+import { mergeDeep, sortBy } from "remeda"
+import z from "zod/v4"
 import { Auth } from "../auth"
-import { Instance } from "../project/instance"
-import { Global } from "../global"
+import { BunProc } from "../bun"
+import { Config } from "../config/config"
 import { Flag } from "../flag/flag"
+import { Global } from "../global"
+import { Instance } from "../project/instance"
+import { NamedError } from "../util/error"
+import { Log } from "../util/log"
+import { ModelsDev } from "./models"
 
 export namespace Provider {
   const log = Log.create({ service: "provider" })
@@ -23,137 +22,6 @@ export namespace Provider {
   }>
 
   type Source = "env" | "config" | "custom" | "api"
-
-  const CUSTOM_LOADERS: Record<string, CustomLoader> = {
-    async anthropic() {
-      return {
-        autoload: false,
-        options: {
-          headers: {
-            "anthropic-beta":
-              "claude-code-20250219,interleaved-thinking-2025-05-14,fine-grained-tool-streaming-2025-05-14",
-          },
-        },
-      }
-    },
-    async opencode(input) {
-      const hasKey = await (async () => {
-        if (input.env.some((item) => process.env[item])) return true
-        if (await Auth.get(input.id)) return true
-        return false
-      })()
-
-      if (!hasKey) {
-        for (const [key, value] of Object.entries(input.models)) {
-          if (value.cost.input === 0) continue
-          delete input.models[key]
-        }
-      }
-
-      return {
-        autoload: Object.keys(input.models).length > 0,
-        options: {},
-      }
-    },
-    openai: async () => {
-      return {
-        autoload: false,
-        async getModel(sdk: any, modelID: string) {
-          return sdk.responses(modelID)
-        },
-        options: {},
-      }
-    },
-    azure: async () => {
-      return {
-        autoload: false,
-        async getModel(sdk: any, modelID: string) {
-          return sdk.responses(modelID)
-        },
-        options: {},
-      }
-    },
-    "amazon-bedrock": async () => {
-      if (!process.env["AWS_PROFILE"] && !process.env["AWS_ACCESS_KEY_ID"] && !process.env["AWS_BEARER_TOKEN_BEDROCK"])
-        return { autoload: false }
-
-      const region = process.env["AWS_REGION"] ?? "us-east-1"
-
-      const { fromNodeProviderChain } = await import(await BunProc.install("@aws-sdk/credential-providers"))
-      return {
-        autoload: true,
-        options: {
-          region,
-          credentialProvider: fromNodeProviderChain(),
-        },
-        async getModel(sdk: any, modelID: string) {
-          let regionPrefix = region.split("-")[0]
-
-          switch (regionPrefix) {
-            case "us": {
-              const modelRequiresPrefix = ["claude", "deepseek"].some((m) => modelID.includes(m))
-              const isGovCloud = region.startsWith("us-gov")
-              if (modelRequiresPrefix && !isGovCloud) {
-                modelID = `${regionPrefix}.${modelID}`
-              }
-              break
-            }
-            case "eu": {
-              const regionRequiresPrefix = [
-                "eu-west-1",
-                "eu-west-3",
-                "eu-north-1",
-                "eu-central-1",
-                "eu-south-1",
-                "eu-south-2",
-              ].some((r) => region.includes(r))
-              const modelRequiresPrefix = ["claude", "nova-lite", "nova-micro", "llama3", "pixtral"].some((m) =>
-                modelID.includes(m),
-              )
-              if (regionRequiresPrefix && modelRequiresPrefix) {
-                modelID = `${regionPrefix}.${modelID}`
-              }
-              break
-            }
-            case "ap": {
-              const modelRequiresPrefix = ["claude", "nova-lite", "nova-micro", "nova-pro"].some((m) =>
-                modelID.includes(m),
-              )
-              if (modelRequiresPrefix) {
-                regionPrefix = "apac"
-                modelID = `${regionPrefix}.${modelID}`
-              }
-              break
-            }
-          }
-
-          return sdk.languageModel(modelID)
-        },
-      }
-    },
-    openrouter: async () => {
-      return {
-        autoload: false,
-        options: {
-          headers: {
-            "HTTP-Referer": "https://opencode.ai/",
-            "X-Title": "opencode",
-          },
-        },
-      }
-    },
-    vercel: async () => {
-      return {
-        autoload: false,
-        options: {
-          headers: {
-            "http-referer": "https://opencode.ai/",
-            "x-title": "opencode",
-          },
-        },
-      }
-    },
-  }
 
   const state = Instance.state(async () => {
     const config = await Config.get()
@@ -305,26 +173,6 @@ export namespace Provider {
     // load config - ONLY load hardcoded provider from config
     for (const [providerID, provider] of configProviders) {
       mergeProvider(providerID, provider.options ?? {}, "config")
-    }
-
-    for (const [providerID, provider] of Object.entries(providers)) {
-      const filteredModels = Object.fromEntries(
-        Object.entries(provider.info.models)
-          // Filter out blacklisted models
-          .filter(
-            ([modelID]) =>
-              modelID !== "gpt-5-chat-latest" && !(providerID === "openrouter" && modelID === "openai/gpt-5-chat"),
-          )
-          // Filter out experimental models
-          .filter(([, model]) => !model.experimental || Flag.OPENCODE_ENABLE_EXPERIMENTAL_MODELS),
-      )
-      provider.info.models = filteredModels
-
-      if (Object.keys(provider.info.models).length === 0) {
-        delete providers[providerID]
-        continue
-      }
-      log.info("found", { providerID })
     }
 
     return {

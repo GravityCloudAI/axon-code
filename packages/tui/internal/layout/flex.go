@@ -135,7 +135,7 @@ func Render(opts FlexOptions, items ...FlexItem) string {
 			case AlignCenter:
 				view = lipgloss.PlaceVertical(
 					crossAxisSize,
-					lipgloss.Center,
+					lipgloss.Left,
 					view,
 					styles.WhitespaceStyle(*opts.Background),
 				)
@@ -174,7 +174,7 @@ func Render(opts FlexOptions, items ...FlexItem) string {
 			case AlignCenter:
 				view = lipgloss.PlaceHorizontal(
 					crossAxisSize,
-					lipgloss.Center,
+					lipgloss.Left,
 					view,
 					styles.WhitespaceStyle(*opts.Background),
 				)

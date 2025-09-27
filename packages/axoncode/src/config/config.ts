@@ -594,6 +594,7 @@ export namespace Config {
     }
 
     // Set the hardcoded provider and default model
+    // @ts-ignore
     result.provider = matteraiProvider
     result.model = "matterai/axon-code"
 

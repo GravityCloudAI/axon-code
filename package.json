@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "bun@1.2.21",
   "scripts": {
-    "dev": "bun run --conditions=development packages/axoncode/src/index.ts",
+    "dev": "bun run --watch --conditions=development packages/axoncode/src/index.ts",
     "typecheck": "bun turbo typecheck",
     "prepare": "husky"
   },

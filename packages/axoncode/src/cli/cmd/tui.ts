@@ -184,19 +184,6 @@ export const TuiCommand = cmd({
         return "done"
       })
       if (result === "done") break
-      if (result === "needs_provider") {
-        UI.empty()
-        UI.println(UI.logo("   "))
-        const result = await Bun.spawn({
-          cmd: [...getaxoncodeCommand(), "auth", "login"],
-          cwd: process.cwd(),
-          stdout: "inherit",
-          stderr: "inherit",
-          stdin: "inherit",
-        }).exited
-        if (result !== 0) return
-        UI.empty()
-      }
     }
   },
 })

@@ -229,17 +229,6 @@ func LoadFromConfig(config *axoncode.Config, customCommands []axoncode.Command) 
 			Trigger:     []string{"timeline", "history", "goto"},
 		},
 		{
-			Name:        SessionShareCommand,
-			Description: "share session",
-			Keybindings: parseBindings("<leader>s"),
-			Trigger:     []string{"share"},
-		},
-		{
-			Name:        SessionUnshareCommand,
-			Description: "unshare session",
-			Trigger:     []string{"unshare"},
-		},
-		{
 			Name:        SessionInterruptCommand,
 			Description: "interrupt session",
 			Keybindings: parseBindings("esc"),

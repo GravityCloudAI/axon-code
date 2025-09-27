@@ -1047,8 +1047,8 @@ func (m *messagesComponent) View() string {
 		return lipgloss.Place(
 			m.width,
 			m.height,
-			lipgloss.Center,
-			lipgloss.Center,
+			lipgloss.Left,
+			lipgloss.Left,
 			styles.NewStyle().Background(bgColor).Render(""),
 			styles.WhitespaceStyle(bgColor),
 		)

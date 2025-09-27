@@ -438,8 +438,8 @@ func (m *editorComponent) View() string {
 		return lipgloss.Place(
 			width,
 			5,
-			lipgloss.Center,
-			lipgloss.Center,
+			lipgloss.Left,
+			lipgloss.Left,
 			"",
 			styles.WhitespaceStyle(theme.CurrentTheme().Background()),
 		)
@@ -452,6 +452,7 @@ func (m *editorComponent) Focused() bool {
 }
 
 func (m *editorComponent) Focus() (tea.Model, tea.Cmd) {
+	m.textarea.MoveToBegin()
 	return m, m.textarea.Focus()
 }
 

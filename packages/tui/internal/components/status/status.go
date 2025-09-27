@@ -67,11 +67,11 @@ func (m *statusComponent) logo() string {
 		Bold(true).
 		Render
 
-	open := base("open")
+	axon := base("axon")
 	code := emphasis("code")
 	version := base(" " + m.app.Version)
 
-	content := open + code
+	content := axon + code
 	if m.width > 40 {
 		content += version
 	}

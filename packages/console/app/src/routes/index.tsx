@@ -59,17 +59,11 @@ export default function Home() {
           <img data-slot="logo light" src={logoLight} alt="axoncode logo light" />
           <img data-slot="logo dark" src={logoDark} alt="axoncode logo dark" />
           <h1 data-slot="title">The AI coding agent built for the terminal</h1>
-          <div data-slot="login">
-            <a href="/auth">axoncode zen</a>
-          </div>
         </section>
 
         <section data-component="cta">
           <div data-slot="left">
             <a href="/docs">Get Started</a>
-          </div>
-          <div data-slot="center">
-            <a href="/auth">axoncode zen</a>
           </div>
           <div data-slot="right">
             <button data-copy data-slot="command">
@@ -93,21 +87,7 @@ export default function Home() {
               <strong>LSP enabled</strong> Automatically loads the right LSPs for the LLM
             </li>
             <li>
-              <strong>axoncode zen</strong> A <a href="/docs/zen">curated list of models</a> provided by axoncode{" "}
-              <label>New</label>
-            </li>
-            <li>
               <strong>Multi-session</strong> Start multiple agents in parallel on the same project
-            </li>
-            <li>
-              <strong>Shareable links</strong> Share a link to any sessions for reference or to debug
-            </li>
-            <li>
-              <strong>Claude Pro</strong> Log in with Anthropic to use your Claude Pro or Max account
-            </li>
-            <li>
-              <strong>Use any model</strong> Supports 75+ LLM providers through{" "}
-              <a href="https://models.dev">Models.dev</a>, including local models
             </li>
           </ul>
         </section>
