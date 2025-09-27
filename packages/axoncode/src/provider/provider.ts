@@ -2,10 +2,8 @@ import { NoSuchModelError, type LanguageModel, type Provider as SDK } from "ai"
 import path from "path"
 import { mergeDeep, sortBy } from "remeda"
 import z from "zod/v4"
-import { Auth } from "../auth"
 import { BunProc } from "../bun"
 import { Config } from "../config/config"
-import { Flag } from "../flag/flag"
 import { Global } from "../global"
 import { Instance } from "../project/instance"
 import { NamedError } from "../util/error"
@@ -14,12 +12,6 @@ import { ModelsDev } from "./models"
 
 export namespace Provider {
   const log = Log.create({ service: "provider" })
-
-  type CustomLoader = (provider: ModelsDev.Provider) => Promise<{
-    autoload: boolean
-    getModel?: (sdk: any, modelID: string) => Promise<any>
-    options?: Record<string, any>
-  }>
 
   type Source = "env" | "config" | "custom" | "api"
 
@@ -119,56 +111,6 @@ export namespace Provider {
       }
       database[providerID] = parsed
     }
-
-    const disabled = await Config.get().then((cfg) => new Set(cfg.disabled_providers ?? []))
-    // load env - DISABLED to use only hardcoded provider
-    /*
-    for (const [providerID, provider] of Object.entries(database)) {
-      if (disabled.has(providerID)) continue
-      const apiKey = provider.env.map((item) => process.env[item]).at(0)
-      if (!apiKey) continue
-      mergeProvider(
-        providerID,
-        // only include apiKey if there's only one potential option
-        provider.env.length === 1 ? { apiKey } : {},
-        "env",
-      )
-    }
-    */
-
-    // load apikeys - DISABLED to use only hardcoded provider
-    /*
-    for (const [providerID, provider] of Object.entries(await Auth.all())) {
-      if (disabled.has(providerID)) continue
-      if (provider.type === "api") {
-        mergeProvider(providerID, { apiKey: provider.key }, "api")
-      }
-    }
-    */
-
-    // load custom - DISABLED to use only hardcoded provider
-    /*
-    for (const [providerID, fn] of Object.entries(CUSTOM_LOADERS)) {
-      if (disabled.has(providerID)) continue
-      const result = await fn(database[providerID])
-      if (result && (result.autoload || providers[providerID])) {
-        mergeProvider(providerID, result.options ?? {}, "custom", result.getModel)
-      }
-    }
-    */
-
-    /*
-    for (const plugin of await Plugin.list()) {
-      if (!plugin.auth) continue
-      const providerID = plugin.auth.provider
-      if (disabled.has(providerID)) continue
-      const auth = await Auth.get(providerID)
-      if (!auth) continue
-      if (!plugin.auth.loader) continue
-      const options = await plugin.auth.loader(() => Auth.get(providerID) as any, database[plugin.auth.provider])
-      mergeProvider(plugin.auth.provider, options ?? {}, "custom")
-    }
-    */
 
     // load config - ONLY load hardcoded provider from config
     for (const [providerID, provider] of configProviders) {

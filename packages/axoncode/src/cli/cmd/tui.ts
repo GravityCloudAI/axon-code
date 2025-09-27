@@ -1,19 +1,19 @@
+import fs from "fs/promises"
+import path from "path"
+import { Bus } from "../../bus"
+import { Config } from "../../config/config"
 import { Global } from "../../global"
+import { Ide } from "../../ide"
+import { Installation } from "../../installation"
 import { Provider } from "../../provider/provider"
 import { Server } from "../../server/server"
+import { Log } from "../../util/log"
 import { UI } from "../ui"
 import { cmd } from "./cmd"
-import path from "path"
-import fs from "fs/promises"
-import { Installation } from "../../installation"
-import { Config } from "../../config/config"
-import { Bus } from "../../bus"
-import { Log } from "../../util/log"
-import { Ide } from "../../ide"
 
+import { $ } from "bun"
 import { Flag } from "../../flag/flag"
 import { Session } from "../../session"
-import { $ } from "bun"
 import { bootstrap } from "../bootstrap"
 
 declare global {
@@ -193,19 +193,19 @@ export const TuiCommand = cmd({
  * In development: ["bun", "run", "packages/axoncode/src/index.ts"]
  * In production: ["/path/to/axoncode"]
  */
-function getaxoncodeCommand(): string[] {
-  // Check if axoncode_BIN_PATH is set (used by shell wrapper scripts)
-  if (process.env["axoncode_BIN_PATH"]) {
-    return [process.env["axoncode_BIN_PATH"]]
-  }
+// function getaxoncodeCommand(): string[] {
+//   // Check if axoncode_BIN_PATH is set (used by shell wrapper scripts)
+//   if (process.env["axoncode_BIN_PATH"]) {
+//     return [process.env["axoncode_BIN_PATH"]]
+//   }
 
-  const execPath = process.execPath.toLowerCase()
+//   const execPath = process.execPath.toLowerCase()
 
-  if (Installation.isDev()) {
-    // In development, use bun to run the TypeScript entry point
-    return [execPath, "run", process.argv[1]]
-  }
+//   if (Installation.isDev()) {
+//     // In development, use bun to run the TypeScript entry point
+//     return [execPath, "run", process.argv[1]]
+//   }
 
-  // In production, use the current executable path
-  return [process.execPath]
-}
+//   // In production, use the current executable path
+//   return [process.execPath]
+// }
