@@ -1,0 +1,27 @@
+name: axoncode
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  axoncode:
+    if: |
+      contains(github.event.comment.body, ' /oc') ||
+      contains(github.event.comment.body, ' /axoncode')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: read
+      issues: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run axoncode
+        uses: sst/axoncode/github@latest
+        env:
+          axoncode_API_KEY: ${{ secrets.axoncode_API_KEY }}
+        with:
+          model: axoncode/sonic
