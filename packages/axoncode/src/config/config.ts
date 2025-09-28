@@ -588,6 +588,10 @@ export namespace Config {
               cache_read: 0,
               cache_write: 0,
             },
+            limit: {
+              context: 256000,
+              output: 32768,
+            },
           },
         },
       },
