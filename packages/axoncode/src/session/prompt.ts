@@ -316,6 +316,10 @@ export namespace SessionPrompt {
       const result = await processor.process(stream)
       await processor.end()
 
+      log.info("stream", {
+        stream,
+      })
+
       const queued = state().queued.get(input.sessionID) ?? []
 
       if (!result.blocked && !result.info.error) {

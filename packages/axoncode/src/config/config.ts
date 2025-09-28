@@ -589,8 +589,8 @@ export namespace Config {
               cache_write: 0,
             },
             limit: {
-              context: 256000,
-              output: 32768,
+              context: 200000,
+              output: 32000,
             },
           },
         },
