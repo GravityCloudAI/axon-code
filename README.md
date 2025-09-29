@@ -43,8 +43,14 @@ brew install sst/tap/axoncode      # macOS and Linux
 paru -S axoncode-bin               # Arch Linux
 ```
 
-> [!TIP]
-> Remove versions older than 0.1.x before installing.
+### Get Your API Key
+
+- You need to generate API key to use Axon Code. Visit [https://app.matterai.so](https://app.matterai.so)
+- Once you have the API Key, you can set in your ENV by using
+
+```
+export MATTERAI_API_KEY=YOUR_KEY_HERE
+```
 
 #### Installation Directory
 
