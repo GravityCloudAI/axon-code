@@ -1,20 +1,33 @@
-<p align="center">
-  <a href="https://opencode.ai">
-    <picture>
-      <source srcset="packages/web/src/assets/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="packages/web/src/assets/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/web/src/assets/logo-ornate-light.svg" alt="opencode logo">
-    </picture>
+<div align="center">
+  <a href="https://matterai.so">
+    <img
+      src="https://matterai.so/favicon.png"
+      alt="Matter AI Logo"
+      height="64"
+    />
   </a>
-</p>
-<p align="center">AI coding agent, built for the terminal.</p>
-<p align="center">
-  <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
-  <a href="https://www.npmjs.com/package/opencode-ai"><img alt="npm" src="https://img.shields.io/npm/v/opencode-ai?style=flat-square" /></a>
-  <a href="https://github.com/sst/opencode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/sst/opencode/publish.yml?style=flat-square&branch=dev" /></a>
-</p>
+  <br />
+  <p>
+    <h3>
+      <b>
+        Axon Code
+      </b>
+    </h3>
+  </p>
+  <p>
+    <b>
+      AI Coding agent for your Terminal
+    </b>
+  </p>
+  <p>
 
-[![opencode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+![Matter Og Image](https://res.cloudinary.com/dxvbskvxm/image/upload/v1759129700/Screenshot_2025-09-29_at_12.35.31_tkxne4.png)
+
+  </p>
+</div>
+
+> [!NOTE]  
+> This cli agent is a fork of OpenCode cli agent, originally here: [https://github.com/sst/opencode](https://github.com/sst/opencode). Please give them a star for building a 100% OSS version.
 
 ---
 
@@ -22,12 +35,12 @@
 
 ```bash
 # YOLO
-curl -fsSL https://opencode.ai/install | bash
+curl -fsSL https://api.matterai.so/install | bash
 
 # Package managers
-npm i -g opencode-ai@latest        # or bun/pnpm/yarn
-brew install sst/tap/opencode      # macOS and Linux
-paru -S opencode-bin               # Arch Linux
+npm i -g axoncode-ai@latest        # or bun/pnpm/yarn
+brew install sst/tap/axoncode      # macOS and Linux
+paru -S axoncode-bin               # Arch Linux
 ```
 
 > [!TIP]
@@ -37,24 +50,24 @@ paru -S opencode-bin               # Arch Linux
 
 The install script respects the following priority order for the installation path:
 
-1. `$opencode_INSTALL_DIR` - Custom installation directory
+1. `$axoncode_INSTALL_DIR` - Custom installation directory
 2. `$XDG_BIN_DIR` - XDG Base Directory Specification compliant path
 3. `$HOME/bin` - Standard user binary directory (if exists or can be created)
-4. `$HOME/.opencode/bin` - Default fallback
+4. `$HOME/.axoncode/bin` - Default fallback
 
 ```bash
 # Examples
-opencode_INSTALL_DIR=/usr/local/bin curl -fsSL https://opencode.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+axoncode_INSTALL_DIR=/usr/local/bin curl -fsSL https://api.matterai.so/install | bash
+XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://api.matterai.so/install | bash
 ```
 
 ### Documentation
 
-For more info on how to configure opencode [**head over to our docs**](https://opencode.ai/docs).
+For more info on how to configure axoncode [**head over to our docs**](https://docs.matterai.so).
 
 ### Contributing
 
-opencode is an opinionated tool so any fundamental feature needs to go through a
+axoncode is an opinionated tool so any fundamental feature needs to go through a
 design process with the core team.
 
 > [!IMPORTANT]
@@ -74,7 +87,7 @@ Take a look at the git history to see what kind of PRs we end up merging.
 > [!NOTE]
 > If you do not follow the above guidelines we might close your PR.
 
-To run opencode locally you need.
+To run axoncode locally you need.
 
 - Bun
 - Golang 1.24.x
@@ -88,23 +101,4 @@ $ bun dev
 
 #### Development Notes
 
-**API Client**: After making changes to the TypeScript API endpoints in `packages/opencode/src/server/server.ts`, you will need the opencode team to generate a new stainless sdk for the clients.
-
-### FAQ
-
-#### How is this different than Claude Code?
-
-It's very similar to Claude Code in terms of capability. Here are the key differences:
-
-- 100% open source
-- Not coupled to any provider. Although Anthropic is recommended, opencode can be used with OpenAI, Google or even local models. As models evolve the gaps between them will close and pricing will drop so being provider-agnostic is important.
-- A focus on TUI. opencode is built by neovim users and the creators of [terminal.shop](https://terminal.shop); we are going to push the limits of what's possible in the terminal.
-- A client/server architecture. This for example can allow opencode to run on your computer, while you can drive it remotely from a mobile app. Meaning that the TUI frontend is just one of the possible clients.
-
-#### What's the other repo?
-
-The other confusingly named repo has no relation to this one. You can [read the story behind it here](https://x.com/thdxr/status/1933561254481666466).
-
----
-
-**Join our community** [Discord](https://discord.gg/opencode) | [X.com](https://x.com/opencode)
+**API Client**: After making changes to the TypeScript API endpoints in `packages/axoncode/src/server/server.ts`, you will need the axoncode team to generate a new stainless sdk for the clients.
