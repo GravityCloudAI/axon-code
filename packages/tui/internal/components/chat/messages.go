@@ -950,15 +950,16 @@ func (m *messagesComponent) renderHeader() string {
 	}
 
 	var items []layout.FlexItem
-	if shareEnabled {
-		share := base("/share") + muted(" to create a shareable link")
-		if m.app.Session.Share.URL != "" {
-			share = muted(m.app.Session.Share.URL + "  /unshare")
-		}
-		items = []layout.FlexItem{{View: share}, {View: sessionInfo}}
-	} else {
-		items = []layout.FlexItem{{View: headerText}, {View: sessionInfo}}
-	}
+	items = []layout.FlexItem{{}, {View: sessionInfo}}
+	// if shareEnabled {
+	// 	share := base("/share") + muted(" to create a shareable link")
+	// 	if m.app.Session.Share.URL != "" {
+	// 		share = muted(m.app.Session.Share.URL + "  /unshare")
+	// 	}
+	// 	items = []layout.FlexItem{{View: share}, {View: sessionInfo}}
+	// } else {
+	// 	items = []layout.FlexItem{{View: headerText}, {View: sessionInfo}}
+	// }
 
 	headerRow := layout.Render(
 		layout.FlexOptions{
