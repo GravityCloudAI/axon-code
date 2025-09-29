@@ -1,11 +1,11 @@
-import { Billing } from "@axoncode/console-core/billing.js"
+import { Billing } from "@opencode/console-core/billing.js"
 import type { APIEvent } from "@solidjs/start/server"
-import { and, Database, eq, sql } from "@axoncode/console-core/drizzle/index.js"
-import { BillingTable, PaymentTable } from "@axoncode/console-core/schema/billing.sql.js"
-import { Identifier } from "@axoncode/console-core/identifier.js"
-import { centsToMicroCents } from "@axoncode/console-core/util/price.js"
-import { Actor } from "@axoncode/console-core/actor.js"
-import { Resource } from "@axoncode/console-resource"
+import { and, Database, eq, sql } from "@opencode/console-core/drizzle/index.js"
+import { BillingTable, PaymentTable } from "@opencode/console-core/schema/billing.sql.js"
+import { Identifier } from "@opencode/console-core/identifier.js"
+import { centsToMicroCents } from "@opencode/console-core/util/price.js"
+import { Actor } from "@opencode/console-core/actor.js"
+import { Resource } from "@opencode/console-resource"
 
 export async function POST(input: APIEvent) {
   const body = await Billing.stripe().webhooks.constructEventAsync(

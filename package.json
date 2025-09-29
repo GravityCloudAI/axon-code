@@ -1,11 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "axoncode",
+  "name": "opencode",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.2.21",
   "scripts": {
-    "dev": "bun run --conditions=development packages/axoncode/src/index.ts",
+    "dev": "bun run --conditions=development packages/opencode/src/index.ts",
     "typecheck": "bun turbo typecheck",
     "prepare": "husky"
   },
@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sst/axoncode"
+    "url": "https://github.com/sst/opencode"
   },
   "license": "MIT",
   "prettier": {

@@ -15,7 +15,7 @@ You can switch between agents during a session or invoke them with the `@` menti
 
 ## Types
 
-There are two types of agents in axoncode; primary agents and subagents.
+There are two types of agents in opencode; primary agents and subagents.
 
 ---
 
@@ -27,7 +27,7 @@ Primary agents are the main assistants you interact with directly. You can cycle
 You can use the **Tab** key to switch between primary agents during a session.
 :::
 
-axoncode comes with two built-in primary agents, **Build** and **Plan**. We'll
+opencode comes with two built-in primary agents, **Build** and **Plan**. We'll
 look at these below.
 
 ---
@@ -36,13 +36,13 @@ look at these below.
 
 Subagents are specialized assistants that primary agents can invoke for specific tasks. You can also manually invoke them by **@ mentioning** them in your messages.
 
-axoncode comes with one built-in subagent, **General**. We'll look at this below.
+opencode comes with one built-in subagent, **General**. We'll look at this below.
 
 ---
 
 ## Built-in
 
-axoncode comes with two built-in primary agents and one built-in subagent.
+opencode comes with two built-in primary agents and one built-in subagent.
 
 ---
 
@@ -104,11 +104,11 @@ You can customize the built-in agents or create your own through configuration. 
 
 ### JSON
 
-Configure agents in your `axoncode.json` config file:
+Configure agents in your `opencode.json` config file:
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
       "mode": "primary",
@@ -149,10 +149,10 @@ Configure agents in your `axoncode.json` config file:
 
 You can also define agents using markdown files. Place them in:
 
-- Global: `~/.config/axoncode/agent/`
-- Per-project: `.axoncode/agent/`
+- Global: `~/.config/opencode/agent/`
+- Per-project: `.opencode/agent/`
 
-```markdown title="~/.config/axoncode/agent/review.md"
+```markdown title="~/.config/opencode/agent/review.md"
 ---
 description: Reviews code for quality and best practices
 mode: subagent
@@ -188,7 +188,7 @@ Let's look at these configuration options in detail.
 
 Use the `description` option to provide a brief description of what the agent does and when to use it.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "review": {
@@ -208,7 +208,7 @@ Control the randomness and creativity of the LLM's responses with the `temperatu
 
 Lower values make responses more focused and deterministic, while higher values increase creativity and variability.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "plan": {
@@ -227,7 +227,7 @@ Temperature values typically range from 0.0 to 1.0:
 - **0.3-0.5**: Balanced responses with some creativity, good for general development tasks
 - **0.6-1.0**: More creative and varied responses, useful for brainstorming and exploration
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "analyze": {
@@ -245,7 +245,7 @@ Temperature values typically range from 0.0 to 1.0:
 }
 ```
 
-If no temperature is specified, axoncode uses model-specific defaults; typically 0 for most models, 0.55 for Qwen models.
+If no temperature is specified, opencode uses model-specific defaults; typically 0 for most models, 0.55 for Qwen models.
 
 ---
 
@@ -253,7 +253,7 @@ If no temperature is specified, axoncode uses model-specific defaults; typically
 
 Set to `true` to disable the agent.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "review": {
@@ -269,7 +269,7 @@ Set to `true` to disable the agent.
 
 Specify a custom system prompt file for this agent with the `prompt` config. The prompt file should contain instructions specific to the agent's purpose.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "review": {
@@ -279,7 +279,7 @@ Specify a custom system prompt file for this agent with the `prompt` config. The
 }
 ```
 
-This path is relative to where the config file is located. So this works for both the global axoncode config and the project specific config.
+This path is relative to where the config file is located. So this works for both the global opencode config and the project specific config.
 
 ---
 
@@ -287,7 +287,7 @@ This path is relative to where the config file is located. So this works for bot
 
 Use the `model` config to override the default model for this agent. Useful for using different models optimized for different tasks. For example, a faster model for planning, a more capable model for implementation.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "plan": {
@@ -303,7 +303,7 @@ Use the `model` config to override the default model for this agent. Useful for 
 
 Control which tools are available in this agent with the `tools` config. You can enable or disable specific tools by setting them to `true` or `false`.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "readonly": {
@@ -322,7 +322,7 @@ Control which tools are available in this agent with the `tools` config. You can
 
 You can also use wildcards to control multiple tools at once. For example, to disable all tools from an MCP server:
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "readonly": {
@@ -370,11 +370,11 @@ Each permission can be set to allow, ask, or deny.
 
 - allow, ask, deny
 
-Configure permissions globally in axoncode.json.
+Configure permissions globally in opencode.json.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "permission": {
     "edit": "ask",
     "bash": "allow",
@@ -385,9 +385,9 @@ Configure permissions globally in axoncode.json.
 
 You can override permissions per agent in JSON.
 
-```json title="axoncode.json" {7-18}
+```json title="opencode.json" {7-18}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "agent": {
     "build": {
       "permission": {
@@ -406,7 +406,7 @@ You can override permissions per agent in JSON.
 
 You can also set permissions in Markdown agents.
 
-```markdown title="~/.config/axoncode/agent/review.md"
+```markdown title="~/.config/opencode/agent/review.md"
 ---
 description: Code review without edits
 mode: subagent
@@ -423,7 +423,7 @@ Bash permissions support granular patterns for fine-grained control.
 
 ```json title="Allow most, ask for risky, deny terraform"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "permission": {
     "bash": {
       "*": "allow",
@@ -438,7 +438,7 @@ If you provide a granular bash map, the default becomes ask unless you set \* ex
 
 ```json title="Granular defaults to ask"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "permission": {
     "bash": {
       "git status": "allow"
@@ -455,7 +455,7 @@ Specific bash rules can override a global default.
 
 ```json title="Global ask, agent allows safe commands"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "permission": { "bash": "ask" },
   "agent": {
     "build": {
@@ -475,7 +475,7 @@ For quick reference, here are common setups.
 
 ```json title="Read-only reviewer"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "agent": {
     "review": {
       "permission": { "edit": "deny", "bash": "deny", "webfetch": "allow" }
@@ -486,7 +486,7 @@ For quick reference, here are common setups.
 
 ```json title="Planning agent that can browse but cannot change code"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "agent": {
     "plan": {
       "permission": { "edit": "deny", "bash": "deny", "webfetch": "ask" }
@@ -503,7 +503,7 @@ See the full [permissions guide](/docs/permissions) for more patterns.
 
 Control the agent's mode with the `mode` config. The `mode` option is used to determine how the agent can be used.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
   "agent": {
     "review": {
@@ -523,7 +523,7 @@ Any other options you specify in your agent configuration will be **passed throu
 
 For example, with OpenAI's reasoning models, you can control the reasoning effort:
 
-```json title="axoncode.json" {6,7}
+```json title="opencode.json" {6,7}
 {
   "agent": {
     "deep-thinker": {
@@ -539,7 +539,7 @@ For example, with OpenAI's reasoning models, you can control the reasoning effor
 These additional options are model and provider-specific. Check your provider's documentation for available parameters.
 
 :::tip
-Run `axoncode models` to see a list of the available models.
+Run `opencode models` to see a list of the available models.
 :::
 
 ---
@@ -549,7 +549,7 @@ Run `axoncode models` to see a list of the available models.
 You can create new agents using the following command:
 
 ```bash
-axoncode agent create
+opencode agent create
 ```
 
 This interactive command will:
@@ -579,14 +579,14 @@ Here are some common use cases for different agents.
 Here are some examples agents you might find useful.
 
 :::tip
-Do you have an agent you'd like to share? [Submit a PR](https://github.com/sst/axoncode).
+Do you have an agent you'd like to share? [Submit a PR](https://github.com/sst/opencode).
 :::
 
 ---
 
 ### Documentation agent
 
-```markdown title="~/.config/axoncode/agent/docs-writer.md"
+```markdown title="~/.config/opencode/agent/docs-writer.md"
 ---
 description: Writes and maintains project documentation
 mode: subagent
@@ -608,7 +608,7 @@ Focus on:
 
 ### Security auditor
 
-```markdown title="~/.config/axoncode/agent/security-auditor.md"
+```markdown title="~/.config/opencode/agent/security-auditor.md"
 ---
 description: Performs security audits and identifies vulnerabilities
 mode: subagent

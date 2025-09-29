@@ -5,12 +5,12 @@ import { Actor } from "./actor"
 import { fn } from "./util/fn"
 import { z } from "zod"
 import { User } from "./user"
-import { Resource } from "@axoncode/console-resource"
+import { Resource } from "@opencode/console-resource"
 import { Identifier } from "./identifier"
 import { centsToMicroCents } from "./util/price"
 
 export namespace Billing {
-  export const CHARGE_NAME = "axoncode credits"
+  export const CHARGE_NAME = "opencode credits"
   export const CHARGE_FEE_NAME = "processing fee"
   export const CHARGE_AMOUNT = 2000 // $20
   export const CHARGE_FEE = 123 // Stripe fee 4.4% + $0.30

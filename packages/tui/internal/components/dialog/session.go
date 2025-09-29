@@ -9,15 +9,15 @@ import (
 	"github.com/charmbracelet/bubbles/v2/textinput"
 	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/muesli/reflow/truncate"
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/components/list"
-	"github.com/sst/axoncode/internal/components/modal"
-	"github.com/sst/axoncode/internal/components/toast"
-	"github.com/sst/axoncode/internal/layout"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/components/list"
+	"github.com/sst/opencode/internal/components/modal"
+	"github.com/sst/opencode/internal/components/toast"
+	"github.com/sst/opencode/internal/layout"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 // SessionDialog interface for the session switching dialog
@@ -107,7 +107,7 @@ type sessionDialog struct {
 	width              int
 	height             int
 	modal              *modal.Modal
-	sessions           []axoncode.Session
+	sessions           []opencode.Session
 	list               list.List[sessionItem]
 	app                *app.App
 	deleteConfirmation int // -1 means no confirmation, >= 0 means confirming deletion of session at this index
@@ -355,7 +355,7 @@ func (s *sessionDialog) Close() tea.Cmd {
 func NewSessionDialog(app *app.App) SessionDialog {
 	sessions, _ := app.ListSessions(context.Background())
 
-	var filteredSessions []axoncode.Session
+	var filteredSessions []opencode.Session
 	var items []sessionItem
 	for _, sess := range sessions {
 		if sess.ParentID != "" {

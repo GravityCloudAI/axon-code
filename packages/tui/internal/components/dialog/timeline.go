@@ -8,14 +8,14 @@ import (
 	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/muesli/reflow/truncate"
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/components/list"
-	"github.com/sst/axoncode/internal/components/modal"
-	"github.com/sst/axoncode/internal/layout"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/components/list"
+	"github.com/sst/opencode/internal/components/modal"
+	"github.com/sst/opencode/internal/layout"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 // TimelineDialog interface for the session timeline dialog
@@ -247,10 +247,10 @@ func (n *timelineDialog) Close() tea.Cmd {
 }
 
 // extractMessagePreview extracts a preview from message parts
-func extractMessagePreview(parts []axoncode.PartUnion) string {
+func extractMessagePreview(parts []opencode.PartUnion) string {
 	for _, part := range parts {
 		switch casted := part.(type) {
-		case axoncode.TextPart:
+		case opencode.TextPart:
 			text := strings.TrimSpace(casted.Text)
 			if text != "" {
 				return text
@@ -267,13 +267,13 @@ func countToolsInResponse(messages []app.Message, userMessageIndex int) int {
 	for i := userMessageIndex + 1; i < len(messages); i++ {
 		message := messages[i]
 		// If we hit another user message, stop looking
-		if _, isUser := message.Info.(axoncode.UserMessage); isUser {
+		if _, isUser := message.Info.(opencode.UserMessage); isUser {
 			break
 		}
 		// Count tools in this assistant message
 		for _, part := range message.Parts {
 			switch part.(type) {
-			case axoncode.ToolPart:
+			case opencode.ToolPart:
 				count++
 			}
 		}
@@ -287,7 +287,7 @@ func NewTimelineDialog(app *app.App) TimelineDialog { // renamed from NewNavigat
 
 	// Filter to only user messages and extract relevant info
 	for i, message := range app.Messages {
-		if userMsg, ok := message.Info.(axoncode.UserMessage); ok {
+		if userMsg, ok := message.Info.(opencode.UserMessage); ok {
 			preview := extractMessagePreview(message.Parts)
 			toolCount := countToolsInResponse(app.Messages, i)
 
@@ -324,7 +324,7 @@ func NewTimelineDialog(app *app.App) TimelineDialog { // renamed from NewNavigat
 					// If not reverted, highlight the last user message
 					lastUserMsgID := ""
 					for i := len(app.Messages) - 1; i >= 0; i-- {
-						if userMsg, ok := app.Messages[i].Info.(axoncode.UserMessage); ok {
+						if userMsg, ok := app.Messages[i].Info.(opencode.UserMessage); ok {
 							lastUserMsgID = userMsg.ID
 							break
 						}

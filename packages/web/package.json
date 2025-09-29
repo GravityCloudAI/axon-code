@@ -1,10 +1,10 @@
 {
-  "name": "@axoncode/web",
+  "name": "@opencode/web",
   "type": "module",
   "version": "0.12.1",
   "scripts": {
     "dev": "astro dev",
-    "dev:remote": "VITE_API_URL=https://api.axoncode.ai astro dev",
+    "dev:remote": "VITE_API_URL=https://api.opencode.ai astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -34,7 +34,7 @@
     "toolbeam-docs-theme": "0.4.6"
   },
   "devDependencies": {
-    "axoncode": "workspace:*",
+    "opencode": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:"
   }

@@ -9,14 +9,14 @@ import (
 	"github.com/charmbracelet/bubbles/v2/key"
 	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/lithammer/fuzzysearch/fuzzy"
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/components/list"
-	"github.com/sst/axoncode/internal/components/modal"
-	"github.com/sst/axoncode/internal/layout"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/components/list"
+	"github.com/sst/opencode/internal/components/modal"
+	"github.com/sst/opencode/internal/layout"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 const (
@@ -42,8 +42,8 @@ type modelDialog struct {
 }
 
 type ModelWithProvider struct {
-	Model    axoncode.Model
-	Provider axoncode.Provider
+	Model    opencode.Model
+	Provider opencode.Provider
 }
 
 // modelItem is a custom list item for model selections

@@ -14,17 +14,17 @@ import (
 	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/google/uuid"
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/attachment"
-	"github.com/sst/axoncode/internal/clipboard"
-	"github.com/sst/axoncode/internal/commands"
-	"github.com/sst/axoncode/internal/components/dialog"
-	"github.com/sst/axoncode/internal/components/textarea"
-	"github.com/sst/axoncode/internal/components/toast"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/attachment"
+	"github.com/sst/opencode/internal/clipboard"
+	"github.com/sst/opencode/internal/commands"
+	"github.com/sst/opencode/internal/components/dialog"
+	"github.com/sst/opencode/internal/components/textarea"
+	"github.com/sst/opencode/internal/components/toast"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 type EditorComponent interface {
@@ -134,7 +134,7 @@ func (m *editorComponent) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case app.MessageRevertedMsg:
 		if msg.Session.ID == m.app.Session.ID {
 			switch msg.Message.Info.(type) {
-			case axoncode.UserMessage:
+			case opencode.UserMessage:
 				prompt, err := msg.Message.ToPrompt()
 				if err != nil {
 					return m, toast.NewErrorToast("Failed to revert message")
@@ -268,7 +268,7 @@ func (m *editorComponent) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			cursorCol := m.textarea.CursorColumn()
 			m.textarea.ReplaceRange(atIndex, cursorCol, "")
 
-			symbol := msg.Item.RawData.(axoncode.Symbol)
+			symbol := msg.Item.RawData.(opencode.Symbol)
 			parts := strings.Split(symbol.Name, ".")
 			lastPart := parts[len(parts)-1]
 			attachment := &attachment.Attachment{
@@ -438,8 +438,8 @@ func (m *editorComponent) View() string {
 		return lipgloss.Place(
 			width,
 			5,
-			lipgloss.Left,
-			lipgloss.Left,
+			lipgloss.Center,
+			lipgloss.Center,
 			"",
 			styles.WhitespaceStyle(theme.CurrentTheme().Background()),
 		)
@@ -452,7 +452,6 @@ func (m *editorComponent) Focused() bool {
 }
 
 func (m *editorComponent) Focus() (tea.Model, tea.Cmd) {
-	m.textarea.MoveToBegin()
 	return m, m.textarea.Focus()
 }
 

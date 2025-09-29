@@ -32,8 +32,8 @@ const theme: ThemeInput = {
     "terminal.inactiveSelectionBackground": "var(--theme-background-element)",
     "widget.border": "var(--theme-border)",
   },
-  displayName: "axoncode",
-  name: "axoncode",
+  displayName: "opencode",
+  name: "opencode",
   semanticHighlighting: true,
   semanticTokenColors: {
     customLiteral: "var(--theme-syntax-function)",

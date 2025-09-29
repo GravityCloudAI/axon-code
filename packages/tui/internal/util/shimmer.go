@@ -8,7 +8,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/charmbracelet/lipgloss/v2/compat"
-	"github.com/sst/axoncode/internal/styles"
+	"github.com/sst/opencode/internal/styles"
 )
 
 var (

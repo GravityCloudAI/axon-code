@@ -1,7 +1,7 @@
 import { json, query, action, useParams, createAsync, useSubmission } from "@solidjs/router"
 import { createEffect, createSignal, For, Show } from "solid-js"
 import { IconCopy, IconCheck } from "~/component/icon"
-import { Key } from "@axoncode/console-core/key.js"
+import { Key } from "@opencode/console-core/key.js"
 import { withActor } from "~/context/auth.withActor"
 import { createStore } from "solid-js/store"
 import { formatDateUTC, formatDateForTable } from "./common"
@@ -113,7 +113,7 @@ export function KeySection() {
     <section class={styles.root}>
       <div data-slot="section-title">
         <h2>API Keys</h2>
-        <p>Manage your API keys for accessing axoncode services.</p>
+        <p>Manage your API keys for accessing opencode services.</p>
       </div>
       <KeyCreateForm />
       <div data-slot="api-keys-table">
@@ -121,7 +121,7 @@ export function KeySection() {
           when={keys()?.length}
           fallback={
             <div data-component="empty-state">
-              <p>Create an axoncode Gateway API key</p>
+              <p>Create an opencode Gateway API key</p>
             </div>
           }
         >

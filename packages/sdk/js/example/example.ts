@@ -1,7 +1,7 @@
-import { createaxoncodeClient, createaxoncodeServer } from "@opencode-ai/sdk"
+import { createOpencodeClient, createOpencodeServer } from "@opencode-ai/sdk"
 
-const server = await createaxoncodeServer()
-const client = createaxoncodeClient({ baseUrl: server.url })
+const server = await createOpencodeServer()
+const client = createOpencodeClient({ baseUrl: server.url })
 
 const input = await Array.fromAsync(new Bun.Glob("packages/core/*.ts").scan())
 

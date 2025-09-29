@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea/v2"
-	"github.com/sst/axoncode-sdk-go"
+	"github.com/sst/opencode-sdk-go"
 )
 
 type ExecuteCommandMsg Command
@@ -190,7 +190,7 @@ func parseBindings(bindings ...string) []Keybinding {
 	return parsedBindings
 }
 
-func LoadFromConfig(config *axoncode.Config, customCommands []axoncode.Command) CommandRegistry {
+func LoadFromConfig(config *opencode.Config, customCommands []opencode.Command) CommandRegistry {
 	defaults := []Command{
 		{
 			Name:        AppHelpCommand,
@@ -227,6 +227,17 @@ func LoadFromConfig(config *axoncode.Config, customCommands []axoncode.Command) 
 			Description: "show session timeline",
 			Keybindings: parseBindings("<leader>g"),
 			Trigger:     []string{"timeline", "history", "goto"},
+		},
+		{
+			Name:        SessionShareCommand,
+			Description: "share session",
+			Keybindings: parseBindings("<leader>s"),
+			Trigger:     []string{"share"},
+		},
+		{
+			Name:        SessionUnshareCommand,
+			Description: "unshare session",
+			Trigger:     []string{"unshare"},
 		},
 		{
 			Name:        SessionInterruptCommand,
@@ -387,7 +398,7 @@ func LoadFromConfig(config *axoncode.Config, customCommands []axoncode.Command) 
 	json.Unmarshal(marshalled, &keybinds)
 	for _, command := range defaults {
 		// Remove share/unshare commands if sharing is disabled
-		if config.Share == axoncode.ConfigShareDisabled &&
+		if config.Share == opencode.ConfigShareDisabled &&
 			(command.Name == SessionShareCommand || command.Name == SessionUnshareCommand) {
 			slog.Info("Removing share/unshare commands")
 			continue

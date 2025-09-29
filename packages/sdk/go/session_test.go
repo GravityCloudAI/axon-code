@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package axoncode_test
+package opencode_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode-sdk-go/internal/testutil"
-	"github.com/sst/axoncode-sdk-go/option"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode-sdk-go/internal/testutil"
+	"github.com/sst/opencode-sdk-go/option"
 )
 
 func TestSessionNewWithOptionalParams(t *testing.T) {
@@ -22,16 +22,16 @@ func TestSessionNewWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Session.New(context.TODO(), axoncode.SessionNewParams{
-		Directory: axoncode.F("directory"),
-		ParentID:  axoncode.F("parentID"),
-		Title:     axoncode.F("title"),
+	_, err := client.Session.New(context.TODO(), opencode.SessionNewParams{
+		Directory: opencode.F("directory"),
+		ParentID:  opencode.F("parentID"),
+		Title:     opencode.F("title"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -48,19 +48,19 @@ func TestSessionUpdateWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Update(
 		context.TODO(),
 		"id",
-		axoncode.SessionUpdateParams{
-			Directory: axoncode.F("directory"),
-			Title:     axoncode.F("title"),
+		opencode.SessionUpdateParams{
+			Directory: opencode.F("directory"),
+			Title:     opencode.F("title"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -77,14 +77,14 @@ func TestSessionListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Session.List(context.TODO(), axoncode.SessionListParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Session.List(context.TODO(), opencode.SessionListParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -101,18 +101,18 @@ func TestSessionDeleteWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Delete(
 		context.TODO(),
 		"id",
-		axoncode.SessionDeleteParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionDeleteParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -129,18 +129,18 @@ func TestSessionAbortWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Abort(
 		context.TODO(),
 		"id",
-		axoncode.SessionAbortParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionAbortParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -157,18 +157,18 @@ func TestSessionChildrenWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Children(
 		context.TODO(),
 		"id",
-		axoncode.SessionChildrenParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionChildrenParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -185,23 +185,23 @@ func TestSessionCommandWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Command(
 		context.TODO(),
 		"id",
-		axoncode.SessionCommandParams{
-			Arguments: axoncode.F("arguments"),
-			Command:   axoncode.F("command"),
-			Directory: axoncode.F("directory"),
-			Agent:     axoncode.F("agent"),
-			MessageID: axoncode.F("msgJ!"),
-			Model:     axoncode.F("model"),
+		opencode.SessionCommandParams{
+			Arguments: opencode.F("arguments"),
+			Command:   opencode.F("command"),
+			Directory: opencode.F("directory"),
+			Agent:     opencode.F("agent"),
+			MessageID: opencode.F("msgJ!"),
+			Model:     opencode.F("model"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -218,18 +218,18 @@ func TestSessionGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Get(
 		context.TODO(),
 		"id",
-		axoncode.SessionGetParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionGetParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -246,21 +246,21 @@ func TestSessionInitWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Init(
 		context.TODO(),
 		"id",
-		axoncode.SessionInitParams{
-			MessageID:  axoncode.F("messageID"),
-			ModelID:    axoncode.F("modelID"),
-			ProviderID: axoncode.F("providerID"),
-			Directory:  axoncode.F("directory"),
+		opencode.SessionInitParams{
+			MessageID:  opencode.F("messageID"),
+			ModelID:    opencode.F("modelID"),
+			ProviderID: opencode.F("providerID"),
+			Directory:  opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -277,19 +277,19 @@ func TestSessionMessageWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Message(
 		context.TODO(),
 		"id",
 		"messageID",
-		axoncode.SessionMessageParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionMessageParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -306,18 +306,18 @@ func TestSessionMessagesWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Messages(
 		context.TODO(),
 		"id",
-		axoncode.SessionMessagesParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionMessagesParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -334,38 +334,38 @@ func TestSessionPromptWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Prompt(
 		context.TODO(),
 		"id",
-		axoncode.SessionPromptParams{
-			Parts: axoncode.F([]axoncode.SessionPromptParamsPartUnion{axoncode.TextPartInputParam{
-				Text:      axoncode.F("text"),
-				Type:      axoncode.F(axoncode.TextPartInputTypeText),
-				ID:        axoncode.F("id"),
-				Synthetic: axoncode.F(true),
-				Time: axoncode.F(axoncode.TextPartInputTimeParam{
-					Start: axoncode.F(0.000000),
-					End:   axoncode.F(0.000000),
+		opencode.SessionPromptParams{
+			Parts: opencode.F([]opencode.SessionPromptParamsPartUnion{opencode.TextPartInputParam{
+				Text:      opencode.F("text"),
+				Type:      opencode.F(opencode.TextPartInputTypeText),
+				ID:        opencode.F("id"),
+				Synthetic: opencode.F(true),
+				Time: opencode.F(opencode.TextPartInputTimeParam{
+					Start: opencode.F(0.000000),
+					End:   opencode.F(0.000000),
 				}),
 			}}),
-			Directory: axoncode.F("directory"),
-			Agent:     axoncode.F("agent"),
-			MessageID: axoncode.F("msgJ!"),
-			Model: axoncode.F(axoncode.SessionPromptParamsModel{
-				ModelID:    axoncode.F("modelID"),
-				ProviderID: axoncode.F("providerID"),
+			Directory: opencode.F("directory"),
+			Agent:     opencode.F("agent"),
+			MessageID: opencode.F("msgJ!"),
+			Model: opencode.F(opencode.SessionPromptParamsModel{
+				ModelID:    opencode.F("modelID"),
+				ProviderID: opencode.F("providerID"),
 			}),
-			System: axoncode.F("system"),
-			Tools: axoncode.F(map[string]bool{
+			System: opencode.F("system"),
+			Tools: opencode.F(map[string]bool{
 				"foo": true,
 			}),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -382,20 +382,20 @@ func TestSessionRevertWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Revert(
 		context.TODO(),
 		"id",
-		axoncode.SessionRevertParams{
-			MessageID: axoncode.F("msgJ!"),
-			Directory: axoncode.F("directory"),
-			PartID:    axoncode.F("prtJ!"),
+		opencode.SessionRevertParams{
+			MessageID: opencode.F("msgJ!"),
+			Directory: opencode.F("directory"),
+			PartID:    opencode.F("prtJ!"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -412,18 +412,18 @@ func TestSessionShareWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Share(
 		context.TODO(),
 		"id",
-		axoncode.SessionShareParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionShareParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -440,20 +440,20 @@ func TestSessionShellWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Shell(
 		context.TODO(),
 		"id",
-		axoncode.SessionShellParams{
-			Agent:     axoncode.F("agent"),
-			Command:   axoncode.F("command"),
-			Directory: axoncode.F("directory"),
+		opencode.SessionShellParams{
+			Agent:     opencode.F("agent"),
+			Command:   opencode.F("command"),
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -470,20 +470,20 @@ func TestSessionSummarizeWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Summarize(
 		context.TODO(),
 		"id",
-		axoncode.SessionSummarizeParams{
-			ModelID:    axoncode.F("modelID"),
-			ProviderID: axoncode.F("providerID"),
-			Directory:  axoncode.F("directory"),
+		opencode.SessionSummarizeParams{
+			ModelID:    opencode.F("modelID"),
+			ProviderID: opencode.F("providerID"),
+			Directory:  opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -500,18 +500,18 @@ func TestSessionUnrevertWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Unrevert(
 		context.TODO(),
 		"id",
-		axoncode.SessionUnrevertParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionUnrevertParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -528,18 +528,18 @@ func TestSessionUnshareWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
 	_, err := client.Session.Unshare(
 		context.TODO(),
 		"id",
-		axoncode.SessionUnshareParams{
-			Directory: axoncode.F("directory"),
+		opencode.SessionUnshareParams{
+			Directory: opencode.F("directory"),
 		},
 	)
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

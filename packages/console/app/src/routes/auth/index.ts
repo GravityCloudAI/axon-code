@@ -1,4 +1,4 @@
-import { Account } from "@axoncode/console-core/account.js"
+import { Account } from "@opencode/console-core/account.js"
 import { redirect } from "@solidjs/router"
 import type { APIEvent } from "@solidjs/start/server"
 import { withActor } from "~/context/auth.withActor"

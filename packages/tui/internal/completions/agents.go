@@ -5,10 +5,10 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
 )
 
 type agentsContextGroup struct {
@@ -32,7 +32,7 @@ func (cg *agentsContextGroup) GetChildEntries(
 
 	agents, err := cg.app.Client.Agent.List(
 		context.Background(),
-		axoncode.AgentListParams{},
+		opencode.AgentListParams{},
 	)
 	if err != nil {
 		slog.Error("Failed to get agent list", "error", err)
@@ -46,7 +46,7 @@ func (cg *agentsContextGroup) GetChildEntries(
 		if query != "" && !strings.Contains(strings.ToLower(agent.Name), strings.ToLower(query)) {
 			continue
 		}
-		if agent.Mode == axoncode.AgentModePrimary {
+		if agent.Mode == opencode.AgentModePrimary {
 			continue
 		}
 

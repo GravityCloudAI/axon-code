@@ -18,7 +18,7 @@ export type TuiOptions = {
   config?: Config
 }
 
-export async function createaxoncodeServer(options?: ServerOptions) {
+export async function createOpencodeServer(options?: ServerOptions) {
   options = Object.assign(
     {
       hostname: "127.0.0.1",
@@ -28,11 +28,11 @@ export async function createaxoncodeServer(options?: ServerOptions) {
     options ?? {},
   )
 
-  const proc = spawn(`axoncode`, [`serve`, `--hostname=${options.hostname}`, `--port=${options.port}`], {
+  const proc = spawn(`opencode`, [`serve`, `--hostname=${options.hostname}`, `--port=${options.port}`], {
     signal: options.signal,
     env: {
       ...process.env,
-      axoncode_CONFIG_CONTENT: JSON.stringify(options.config ?? {}),
+      OPENCODE_CONFIG_CONTENT: JSON.stringify(options.config ?? {}),
     },
   })
 
@@ -45,7 +45,7 @@ export async function createaxoncodeServer(options?: ServerOptions) {
       output += chunk.toString()
       const lines = output.split("\n")
       for (const line of lines) {
-        if (line.startsWith("axoncode server listening")) {
+        if (line.startsWith("opencode server listening")) {
           const match = line.match(/on\s+(https?:\/\/[^\s]+)/)
           if (!match) {
             throw new Error(`Failed to parse server url from output: ${line}`)
@@ -87,7 +87,7 @@ export async function createaxoncodeServer(options?: ServerOptions) {
   }
 }
 
-export function createaxoncodeTui(options?: TuiOptions) {
+export function createOpencodeTui(options?: TuiOptions) {
   const args = []
 
   if (options?.project) {
@@ -103,12 +103,12 @@ export function createaxoncodeTui(options?: TuiOptions) {
     args.push(`--agent=${options.agent}`)
   }
 
-  const proc = spawn(`axoncode`, args, {
+  const proc = spawn(`opencode`, args, {
     signal: options?.signal,
     stdio: "inherit",
     env: {
       ...process.env,
-      axoncode_CONFIG_CONTENT: JSON.stringify(options?.config ?? {}),
+      OPENCODE_CONFIG_CONTENT: JSON.stringify(options?.config ?? {}),
     },
   })
 

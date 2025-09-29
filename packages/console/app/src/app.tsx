@@ -11,8 +11,8 @@ export default function App() {
       explicitLinks={true}
       root={(props) => (
         <MetaProvider>
-          <Title>axoncode</Title>
-          <Meta name="description" content="axoncode - The AI coding agent built for the terminal." />
+          <Title>opencode</Title>
+          <Meta name="description" content="opencode - The AI coding agent built for the terminal." />
           <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}

@@ -3,7 +3,7 @@ package textarea
 import (
 	"testing"
 
-	"github.com/sst/axoncode/internal/attachment"
+	"github.com/sst/opencode/internal/attachment"
 )
 
 func TestRemoveAttachmentAtCursor_ConvertsToText_WhenCursorAfterAttachment(t *testing.T) {

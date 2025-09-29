@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"sync"
 
-	axoncode "github.com/sst/axoncode-sdk-go"
+	opencode "github.com/sst/opencode-sdk-go"
 )
 
 func sanitizeValue(val any) any {
@@ -28,23 +28,23 @@ func sanitizeValue(val any) any {
 }
 
 type APILogHandler struct {
-	client  *axoncode.Client
+	client  *opencode.Client
 	service string
 	level   slog.Level
 	attrs   []slog.Attr
 	groups  []string
 	mu      sync.Mutex
-	queue   chan axoncode.AppLogParams
+	queue   chan opencode.AppLogParams
 }
 
-func NewAPILogHandler(ctx context.Context, client *axoncode.Client, service string, level slog.Level) *APILogHandler {
+func NewAPILogHandler(ctx context.Context, client *opencode.Client, service string, level slog.Level) *APILogHandler {
 	result := &APILogHandler{
 		client:  client,
 		service: service,
 		level:   level,
 		attrs:   make([]slog.Attr, 0),
 		groups:  make([]string, 0),
-		queue:   make(chan axoncode.AppLogParams, 100_000),
+		queue:   make(chan opencode.AppLogParams, 100_000),
 	}
 	go func() {
 		for {
@@ -67,18 +67,18 @@ func (h *APILogHandler) Enabled(_ context.Context, level slog.Level) bool {
 }
 
 func (h *APILogHandler) Handle(ctx context.Context, r slog.Record) error {
-	var apiLevel axoncode.AppLogParamsLevel
+	var apiLevel opencode.AppLogParamsLevel
 	switch r.Level {
 	case slog.LevelDebug:
-		apiLevel = axoncode.AppLogParamsLevelDebug
+		apiLevel = opencode.AppLogParamsLevelDebug
 	case slog.LevelInfo:
-		apiLevel = axoncode.AppLogParamsLevelInfo
+		apiLevel = opencode.AppLogParamsLevelInfo
 	case slog.LevelWarn:
-		apiLevel = axoncode.AppLogParamsLevelWarn
+		apiLevel = opencode.AppLogParamsLevelWarn
 	case slog.LevelError:
-		apiLevel = axoncode.AppLogParamsLevelError
+		apiLevel = opencode.AppLogParamsLevelError
 	default:
-		apiLevel = axoncode.AppLogParamsLevelInfo
+		apiLevel = opencode.AppLogParamsLevelInfo
 	}
 
 	extra := make(map[string]any)
@@ -96,14 +96,14 @@ func (h *APILogHandler) Handle(ctx context.Context, r slog.Record) error {
 		return true
 	})
 
-	params := axoncode.AppLogParams{
-		Service: axoncode.F(h.service),
-		Level:   axoncode.F(apiLevel),
-		Message: axoncode.F(r.Message),
+	params := opencode.AppLogParams{
+		Service: opencode.F(h.service),
+		Level:   opencode.F(apiLevel),
+		Message: opencode.F(r.Message),
 	}
 
 	if len(extra) > 0 {
-		params.Extra = axoncode.F(extra)
+		params.Extra = opencode.F(extra)
 	}
 
 	h.queue <- params

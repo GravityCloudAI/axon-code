@@ -1,4 +1,4 @@
-# Agent Guidelines for @axoncode/app
+# Agent Guidelines for @opencode/app
 
 ## Build/Test Commands
 

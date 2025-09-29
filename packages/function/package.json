@@ -1,5 +1,5 @@
 {
-  "name": "@axoncode/function",
+  "name": "@opencode/function",
   "version": "0.12.1",
   "$schema": "https://json.schemastore.org/package.json",
   "private": true,

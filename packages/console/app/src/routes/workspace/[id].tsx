@@ -12,7 +12,7 @@ export default function () {
       <section data-component="title-section">
         <h1>Zen</h1>
         <p>
-          Curated list of models provided by axoncode.{" "}
+          Curated list of models provided by opencode.{" "}
           <a target="_blank" href="/docs/zen">
             Learn more
           </a>

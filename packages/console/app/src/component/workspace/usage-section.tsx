@@ -1,4 +1,4 @@
-import { Billing } from "@axoncode/console-core/billing.js"
+import { Billing } from "@opencode/console-core/billing.js"
 import { query, useParams, createAsync } from "@solidjs/router"
 import { createMemo, For, Show } from "solid-js"
 import { formatDateUTC, formatDateForTable } from "./common"

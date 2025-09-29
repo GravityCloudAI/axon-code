@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@axoncode/console-resource",
+  "name": "@opencode/console-resource",
   "dependencies": {
     "@cloudflare/workers-types": "^4.20250830.0"
   },

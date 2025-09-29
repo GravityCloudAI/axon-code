@@ -27,7 +27,7 @@ export function Code(props: Props) {
     }
     return highlighter.codeToHtml(local.code || "", {
       lang: lang() && lang() in bundledLanguages ? lang() : "text",
-      theme: "axoncode",
+      theme: "opencode",
       transformers: [transformerUnifiedDiff(), transformerDiffGroups()],
     }) as string
   })

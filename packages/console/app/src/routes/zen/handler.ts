@@ -1,16 +1,16 @@
 import { z } from "zod"
 import type { APIEvent } from "@solidjs/start/server"
 import path from "node:path"
-import { and, Database, eq, isNull, lt, or, sql } from "@axoncode/console-core/drizzle/index.js"
-import { KeyTable } from "@axoncode/console-core/schema/key.sql.js"
-import { BillingTable, UsageTable } from "@axoncode/console-core/schema/billing.sql.js"
-import { centsToMicroCents } from "@axoncode/console-core/util/price.js"
-import { Identifier } from "@axoncode/console-core/identifier.js"
-import { Resource } from "@axoncode/console-resource"
+import { and, Database, eq, isNull, lt, or, sql } from "@opencode/console-core/drizzle/index.js"
+import { KeyTable } from "@opencode/console-core/schema/key.sql.js"
+import { BillingTable, UsageTable } from "@opencode/console-core/schema/billing.sql.js"
+import { centsToMicroCents } from "@opencode/console-core/util/price.js"
+import { Identifier } from "@opencode/console-core/identifier.js"
+import { Resource } from "@opencode/console-resource"
 import { Billing } from "../../../../core/src/billing"
-import { Actor } from "@axoncode/console-core/actor.js"
-import { WorkspaceTable } from "@axoncode/console-core/schema/workspace.sql.js"
-import { ZenModel } from "@axoncode/console-core/model.js"
+import { Actor } from "@opencode/console-core/actor.js"
+import { WorkspaceTable } from "@opencode/console-core/schema/workspace.sql.js"
+import { ZenModel } from "@opencode/console-core/model.js"
 
 export async function handler(
   input: APIEvent,
@@ -58,8 +58,8 @@ export async function handler(
     logger.debug(JSON.stringify(body))
     logger.metric({
       is_tream: !!body.stream,
-      session: input.request.headers.get("x-axoncode-session"),
-      request: input.request.headers.get("x-axoncode-request"),
+      session: input.request.headers.get("x-opencode-session"),
+      request: input.request.headers.get("x-opencode-request"),
     })
     const modelInfo = validateModel(body.model)
     const providerInfo = selectProvider(modelInfo)

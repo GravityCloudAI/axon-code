@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package axoncode
+package opencode
 
 import (
 	"context"
@@ -8,17 +8,17 @@ import (
 	"net/url"
 	"reflect"
 
-	"github.com/sst/axoncode-sdk-go/internal/apijson"
-	"github.com/sst/axoncode-sdk-go/internal/apiquery"
-	"github.com/sst/axoncode-sdk-go/internal/param"
-	"github.com/sst/axoncode-sdk-go/internal/requestconfig"
-	"github.com/sst/axoncode-sdk-go/option"
-	"github.com/sst/axoncode-sdk-go/shared"
+	"github.com/sst/opencode-sdk-go/internal/apijson"
+	"github.com/sst/opencode-sdk-go/internal/apiquery"
+	"github.com/sst/opencode-sdk-go/internal/param"
+	"github.com/sst/opencode-sdk-go/internal/requestconfig"
+	"github.com/sst/opencode-sdk-go/option"
+	"github.com/sst/opencode-sdk-go/shared"
 	"github.com/tidwall/gjson"
 )
 
 // ConfigService contains methods and other services that help with interacting
-// with the axoncode API.
+// with the opencode API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
@@ -47,14 +47,14 @@ func (r *ConfigService) Get(ctx context.Context, query ConfigGetParams, opts ...
 type Config struct {
 	// JSON schema reference for configuration validation
 	Schema string `json:"$schema"`
-	// Agent configuration, see https://axoncode.ai/docs/agent
+	// Agent configuration, see https://opencode.ai/docs/agent
 	Agent ConfigAgent `json:"agent"`
 	// @deprecated Use 'share' field instead. Share newly created sessions
 	// automatically
 	Autoshare bool `json:"autoshare"`
 	// Automatically update to the latest version
 	Autoupdate bool `json:"autoupdate"`
-	// Command configuration, see https://axoncode.ai/docs/commands
+	// Command configuration, see https://opencode.ai/docs/commands
 	Command map[string]ConfigCommand `json:"command"`
 	// Disable providers that are loaded automatically
 	DisabledProviders []string                   `json:"disabled_providers"`
@@ -135,7 +135,7 @@ func (r configJSON) RawJSON() string {
 	return r.raw
 }
 
-// Agent configuration, see https://axoncode.ai/docs/agent
+// Agent configuration, see https://opencode.ai/docs/agent
 type ConfigAgent struct {
 	Build       ConfigAgentBuild       `json:"build"`
 	General     ConfigAgentGeneral     `json:"general"`

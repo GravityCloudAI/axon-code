@@ -64,9 +64,9 @@ func LoadThemesFromJSON() error {
 // LoadThemesFromDirectories loads themes from user directories in the correct override order.
 // The hierarchy is (from lowest to highest priority):
 // 1. Built-in themes (embedded)
-// 2. USER_CONFIG/axoncode/themes/*.json
-// 3. PROJECT_ROOT/.axoncode/themes/*.json
-// 4. CWD/.axoncode/themes/*.json
+// 2. USER_CONFIG/opencode/themes/*.json
+// 3. PROJECT_ROOT/.opencode/themes/*.json
+// 4. CWD/.opencode/themes/*.json
 func LoadThemesFromDirectories(userConfig, projectRoot, cwd string) error {
 	if err := LoadThemesFromJSON(); err != nil {
 		return fmt.Errorf("failed to load built-in themes: %w", err)
@@ -74,10 +74,10 @@ func LoadThemesFromDirectories(userConfig, projectRoot, cwd string) error {
 
 	dirs := []string{
 		filepath.Join(userConfig, "themes"),
-		filepath.Join(projectRoot, ".axoncode", "themes"),
+		filepath.Join(projectRoot, ".opencode", "themes"),
 	}
 	if cwd != projectRoot {
-		dirs = append(dirs, filepath.Join(cwd, ".axoncode", "themes"))
+		dirs = append(dirs, filepath.Join(cwd, ".opencode", "themes"))
 	}
 
 	for _, dir := range dirs {

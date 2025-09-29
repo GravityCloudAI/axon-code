@@ -9,8 +9,8 @@ import (
 
 	"github.com/charmbracelet/lipgloss/v2/compat"
 	"github.com/charmbracelet/x/ansi"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
 )
 
 var RootPath string

@@ -1,36 +1,36 @@
 ---
 title: CLI
-description: axoncode CLI options and commands.
+description: opencode CLI options and commands.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 
-The axoncode CLI by default starts the [TUI](/docs/tui) when run without any arguments.
+The opencode CLI by default starts the [TUI](/docs/tui) when run without any arguments.
 
 ```bash
-axoncode
+opencode
 ```
 
-But it also accepts commands as documented on this page. This allows you to interact with axoncode programmatically.
+But it also accepts commands as documented on this page. This allows you to interact with opencode programmatically.
 
 ```bash
-axoncode run "Explain how closures work in JavaScript"
+opencode run "Explain how closures work in JavaScript"
 ```
 
 ---
 
 ## Commands
 
-The axoncode CLI also has the following commands.
+The opencode CLI also has the following commands.
 
 ---
 
 ### agent
 
-Manage agents for axoncode.
+Manage agents for opencode.
 
 ```bash
-axoncode agent [command]
+opencode agent [command]
 ```
 
 ---
@@ -40,7 +40,7 @@ axoncode agent [command]
 Create a new agent with custom configuration.
 
 ```bash
-axoncode agent create
+opencode agent create
 ```
 
 This command will guide you through creating a new agent with a custom system prompt and tool configuration.
@@ -52,20 +52,20 @@ This command will guide you through creating a new agent with a custom system pr
 Command to manage credentials and login for providers.
 
 ```bash
-axoncode auth [command]
+opencode auth [command]
 ```
 
 ---
 
 #### login
 
-axoncode is powered by the provider list at [Models.dev](https://models.dev), so you can use `axoncode auth login` to configure API keys for any provider you'd like to use. This is stored in `~/.local/share/axoncode/auth.json`.
+opencode is powered by the provider list at [Models.dev](https://models.dev), so you can use `opencode auth login` to configure API keys for any provider you'd like to use. This is stored in `~/.local/share/opencode/auth.json`.
 
 ```bash
-axoncode auth login
+opencode auth login
 ```
 
-When axoncode starts up it loads the providers from the credentials file. And if there are any keys defined in your environments or a `.env` file in your project.
+When opencode starts up it loads the providers from the credentials file. And if there are any keys defined in your environments or a `.env` file in your project.
 
 ---
 
@@ -74,13 +74,13 @@ When axoncode starts up it loads the providers from the credentials file. And if
 Lists all the authenticated providers as stored in the credentials file.
 
 ```bash
-axoncode auth list
+opencode auth list
 ```
 
 Or the short version.
 
 ```bash
-axoncode auth ls
+opencode auth ls
 ```
 
 ---
@@ -90,7 +90,7 @@ axoncode auth ls
 Logs you out of a provider by clearing it from the credentials file.
 
 ```bash
-axoncode auth logout
+opencode auth logout
 ```
 
 ---
@@ -100,7 +100,7 @@ axoncode auth logout
 Manage the GitHub agent for repository automation.
 
 ```bash
-axoncode github [command]
+opencode github [command]
 ```
 
 ---
@@ -110,7 +110,7 @@ axoncode github [command]
 Install the GitHub agent in your repository.
 
 ```bash
-axoncode github install
+opencode github install
 ```
 
 This sets up the necessary GitHub Actions workflow and guides you through the configuration process. [Learn more](/docs/github).
@@ -122,7 +122,7 @@ This sets up the necessary GitHub Actions workflow and guides you through the co
 Run the GitHub agent. This is typically used in GitHub Actions.
 
 ```bash
-axoncode github run
+opencode github run
 ```
 
 ##### Flags
@@ -139,7 +139,7 @@ axoncode github run
 List all available models from configured providers.
 
 ```bash
-axoncode models
+opencode models
 ```
 
 This command displays all models available across your configured providers in the format `provider/model`.
@@ -150,16 +150,16 @@ This is useful for figuring out the exact model name to use in [your config](/do
 
 ### run
 
-Run axoncode in non-interactive mode by passing a prompt directly.
+Run opencode in non-interactive mode by passing a prompt directly.
 
 ```bash
-axoncode run [message..]
+opencode run [message..]
 ```
 
 This is useful for scripting, automation, or when you want a quick answer without launching the full TUI. For example.
 
-```bash "axoncode run"
-axoncode run Explain the use of context in Go
+```bash "opencode run"
+opencode run Explain the use of context in Go
 ```
 
 #### Flags
@@ -176,13 +176,13 @@ axoncode run Explain the use of context in Go
 
 ### serve
 
-Start a headless axoncode server for API access. Check out the [server docs](/docs/server) for the full HTTP interface.
+Start a headless opencode server for API access. Check out the [server docs](/docs/server) for the full HTTP interface.
 
 ```bash
-axoncode serve
+opencode serve
 ```
 
-This starts an HTTP server that provides API access to axoncode functionality without the TUI interface.
+This starts an HTTP server that provides API access to opencode functionality without the TUI interface.
 
 #### Flags
 
@@ -195,22 +195,22 @@ This starts an HTTP server that provides API access to axoncode functionality wi
 
 ### upgrade
 
-Updates axoncode to the latest version or a specific version.
+Updates opencode to the latest version or a specific version.
 
 ```bash
-axoncode upgrade [target]
+opencode upgrade [target]
 ```
 
 To upgrade to the latest version.
 
 ```bash
-axoncode upgrade
+opencode upgrade
 ```
 
 To upgrade to a specific version.
 
 ```bash
-axoncode upgrade v0.1.48
+opencode upgrade v0.1.48
 ```
 
 #### Flags
@@ -223,7 +223,7 @@ axoncode upgrade v0.1.48
 
 ## Flags
 
-The axoncode CLI takes the following global flags.
+The opencode CLI takes the following global flags.
 
 | Flag           | Short | Description                                |
 | -------------- | ----- | ------------------------------------------ |

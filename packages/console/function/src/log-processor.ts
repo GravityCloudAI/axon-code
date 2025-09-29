@@ -1,4 +1,4 @@
-import { Resource } from "@axoncode/console-resource"
+import { Resource } from "@opencode/console-resource"
 import type { TraceItem } from "@cloudflare/workers-types"
 
 export default {

@@ -12,13 +12,13 @@ import (
 	"github.com/charmbracelet/lipgloss/v2/compat"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/muesli/reflow/truncate"
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/commands"
-	"github.com/sst/axoncode/internal/components/diff"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/commands"
+	"github.com/sst/opencode/internal/components/diff"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -207,7 +207,7 @@ func renderContentBlock(
 
 func renderText(
 	app *app.App,
-	message axoncode.MessageUnion,
+	message opencode.MessageUnion,
 	text string,
 	author string,
 	showToolDetails bool,
@@ -216,9 +216,9 @@ func renderText(
 	isThinking bool,
 	isQueued bool,
 	shimmer bool,
-	fileParts []axoncode.FilePart,
-	agentParts []axoncode.AgentPart,
-	toolCalls ...axoncode.ToolPart,
+	fileParts []opencode.FilePart,
+	agentParts []opencode.AgentPart,
+	toolCalls ...opencode.ToolPart,
 ) string {
 	t := theme.CurrentTheme()
 
@@ -226,7 +226,7 @@ func renderText(
 	backgroundColor := t.BackgroundPanel()
 	var content string
 	switch casted := message.(type) {
-	case axoncode.AssistantMessage:
+	case opencode.AssistantMessage:
 		backgroundColor = t.Background()
 		if isThinking {
 			backgroundColor = t.BackgroundPanel()
@@ -250,7 +250,7 @@ func renderText(
 			label = styles.NewStyle().Background(backgroundColor).Width(width - 6).Render(label)
 			content = label
 		}
-	case axoncode.UserMessage:
+	case opencode.UserMessage:
 		ts = time.UnixMilli(int64(casted.Time.Created))
 		base := styles.NewStyle().Foreground(t.Text()).Background(backgroundColor)
 
@@ -366,7 +366,7 @@ func renderText(
 
 	// Check if this is an assistant message with agent information
 	var modelAndAgentSuffix string
-	if assistantMsg, ok := message.(axoncode.AssistantMessage); ok && assistantMsg.Mode != "" {
+	if assistantMsg, ok := message.(opencode.AssistantMessage); ok && assistantMsg.Mode != "" {
 		// Find the agent index by name to get the correct color
 		var agentIndex int
 		for i, agent := range app.Agents {
@@ -402,7 +402,7 @@ func renderText(
 		for _, toolCall := range toolCalls {
 			title := renderToolTitle(toolCall, width-2)
 			style := styles.NewStyle()
-			if toolCall.State.Status == axoncode.ToolPartStateStatusError {
+			if toolCall.State.Status == opencode.ToolPartStateStatusError {
 				style = style.Foreground(t.Error())
 			}
 			title = style.Render(title)
@@ -419,7 +419,7 @@ func renderText(
 	content = strings.Join(sections, "\n")
 
 	switch message.(type) {
-	case axoncode.UserMessage:
+	case opencode.UserMessage:
 		borderColor := t.Secondary()
 		if isQueued {
 			borderColor = t.Accent()
@@ -431,7 +431,7 @@ func renderText(
 			WithTextColor(t.Text()),
 			WithBorderColor(borderColor),
 		)
-	case axoncode.AssistantMessage:
+	case opencode.AssistantMessage:
 		if isThinking {
 			return renderContentBlock(
 				app,
@@ -455,8 +455,8 @@ func renderText(
 
 func renderToolDetails(
 	app *app.App,
-	toolCall axoncode.ToolPart,
-	permission axoncode.Permission,
+	toolCall opencode.ToolPart,
+	permission opencode.Permission,
 	width int,
 ) string {
 	measure := util.Measure("chat.renderToolDetails")
@@ -466,7 +466,7 @@ func renderToolDetails(
 		return ""
 	}
 
-	if toolCall.State.Status == axoncode.ToolPartStateStatusPending {
+	if toolCall.State.Status == opencode.ToolPartStateStatusPending {
 		title := renderToolTitle(toolCall, width)
 		return renderContentBlock(app, title, width)
 	}
@@ -581,7 +581,7 @@ func renderToolDetails(
 					title = style.Render(title)
 					content := title + "\n" + body
 
-					if toolCall.State.Status == axoncode.ToolPartStateStatusError {
+					if toolCall.State.Status == opencode.ToolPartStateStatusError {
 						errorStyle := styles.NewStyle().
 							Background(backgroundColor).
 							Foreground(t.Error()).
@@ -667,7 +667,7 @@ func renderToolDetails(
 				steps := []string{}
 				for _, item := range toolcalls {
 					data, _ := json.Marshal(item)
-					var toolCall axoncode.ToolPart
+					var toolCall opencode.ToolPart
 					_ = json.Unmarshal(data, &toolCall)
 					step := renderToolTitle(toolCall, width-2)
 					step = "∟ " + step
@@ -706,7 +706,7 @@ func renderToolDetails(
 	}
 
 	error := ""
-	if toolCall.State.Status == axoncode.ToolPartStateStatusError {
+	if toolCall.State.Status == opencode.ToolPartStateStatusError {
 		error = toolCall.State.Error
 	}
 
@@ -760,7 +760,7 @@ func renderToolName(name string) string {
 		return "Invalid"
 	default:
 		normalizedName := name
-		if after, ok := strings.CutPrefix(name, "axoncode_"); ok {
+		if after, ok := strings.CutPrefix(name, "opencode_"); ok {
 			normalizedName = after
 		}
 		return cases.Title(language.Und).String(normalizedName)
@@ -793,8 +793,8 @@ func getTodoPhase(metadata map[string]any) string {
 	}
 }
 
-func getTodoTitle(toolCall axoncode.ToolPart) string {
-	if toolCall.State.Status == axoncode.ToolPartStateStatusCompleted {
+func getTodoTitle(toolCall opencode.ToolPart) string {
+	if toolCall.State.Status == opencode.ToolPartStateStatusCompleted {
 		if metadata, ok := toolCall.State.Metadata.(map[string]any); ok {
 			return getTodoPhase(metadata)
 		}
@@ -803,10 +803,10 @@ func getTodoTitle(toolCall axoncode.ToolPart) string {
 }
 
 func renderToolTitle(
-	toolCall axoncode.ToolPart,
+	toolCall opencode.ToolPart,
 	width int,
 ) string {
-	if toolCall.State.Status == axoncode.ToolPartStateStatusPending {
+	if toolCall.State.Status == opencode.ToolPartStateStatusPending {
 		title := renderToolAction(toolCall.Tool)
 		t := theme.CurrentTheme()
 		shiny := util.Shimmer(title, t.BackgroundPanel(), t.TextMuted(), t.Accent())

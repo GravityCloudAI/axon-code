@@ -5,7 +5,7 @@ import { domain } from "./stage"
 ////////////////
 
 const cluster = planetscale.getDatabaseOutput({
-  name: "axoncode",
+  name: "opencode",
   organization: "anomalyco",
 })
 

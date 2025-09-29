@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
 )
 
 type filesContextGroup struct {
@@ -29,7 +29,7 @@ func (cg *filesContextGroup) GetEmptyMessage() string {
 func (cg *filesContextGroup) getGitFiles() []CompletionSuggestion {
 	items := make([]CompletionSuggestion, 0)
 
-	status, _ := cg.app.Client.File.Status(context.Background(), axoncode.FileStatusParams{})
+	status, _ := cg.app.Client.File.Status(context.Background(), opencode.FileStatusParams{})
 	if status != nil {
 		files := *status
 		sort.Slice(files, func(i, j int) bool {
@@ -75,7 +75,7 @@ func (cg *filesContextGroup) GetChildEntries(
 
 	files, err := cg.app.Client.Find.Files(
 		context.Background(),
-		axoncode.FindFilesParams{Query: axoncode.F(query)},
+		opencode.FindFilesParams{Query: opencode.F(query)},
 	)
 	if err != nil {
 		slog.Error("Failed to get completion items", "error", err)

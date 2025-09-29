@@ -12,37 +12,37 @@ import (
 	"log/slog"
 
 	tea "github.com/charmbracelet/bubbletea/v2"
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/clipboard"
-	"github.com/sst/axoncode/internal/commands"
-	"github.com/sst/axoncode/internal/components/toast"
-	"github.com/sst/axoncode/internal/id"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/clipboard"
+	"github.com/sst/opencode/internal/commands"
+	"github.com/sst/opencode/internal/components/toast"
+	"github.com/sst/opencode/internal/id"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 type Message struct {
-	Info  axoncode.MessageUnion
-	Parts []axoncode.PartUnion
+	Info  opencode.MessageUnion
+	Parts []opencode.PartUnion
 }
 
 type App struct {
-	Project           axoncode.Project
-	Agents            []axoncode.Agent
-	Providers         []axoncode.Provider
+	Project           opencode.Project
+	Agents            []opencode.Agent
+	Providers         []opencode.Provider
 	Version           string
 	StatePath         string
-	Config            *axoncode.Config
-	Client            *axoncode.Client
+	Config            *opencode.Config
+	Client            *opencode.Client
 	State             *State
 	AgentIndex        int
-	Provider          *axoncode.Provider
-	Model             *axoncode.Model
-	Session           *axoncode.Session
+	Provider          *opencode.Provider
+	Model             *opencode.Model
+	Session           *opencode.Session
 	Messages          []Message
-	Permissions       []axoncode.Permission
-	CurrentPermission axoncode.Permission
+	Permissions       []opencode.Permission
+	CurrentPermission opencode.Permission
 	Commands          commands.CommandRegistry
 	InitialModel      *string
 	InitialPrompt     *string
@@ -54,25 +54,25 @@ type App struct {
 	ScrollSpeed       int
 }
 
-func (a *App) Agent() *axoncode.Agent {
+func (a *App) Agent() *opencode.Agent {
 	return &a.Agents[a.AgentIndex]
 }
 
 type SessionCreatedMsg = struct {
-	Session *axoncode.Session
+	Session *opencode.Session
 }
-type SessionSelectedMsg = *axoncode.Session
+type SessionSelectedMsg = *opencode.Session
 type MessageRevertedMsg struct {
-	Session axoncode.Session
+	Session opencode.Session
 	Message Message
 }
 type SessionUnrevertedMsg struct {
-	Session axoncode.Session
+	Session opencode.Session
 }
 type SessionLoadedMsg struct{}
 type ModelSelectedMsg struct {
-	Provider axoncode.Provider
-	Model    axoncode.Model
+	Provider opencode.Provider
+	Model    opencode.Model
 }
 
 type AgentSelectedMsg struct {
@@ -96,16 +96,16 @@ type FileRenderedMsg struct {
 	FilePath string
 }
 type PermissionRespondedToMsg struct {
-	Response axoncode.SessionPermissionRespondParamsResponse
+	Response opencode.SessionPermissionRespondParamsResponse
 }
 
 func New(
 	ctx context.Context,
 	version string,
-	project *axoncode.Project,
-	path *axoncode.Path,
-	agents []axoncode.Agent,
-	httpClient *axoncode.Client,
+	project *opencode.Project,
+	path *opencode.Path,
+	agents []opencode.Agent,
+	httpClient *opencode.Client,
 	initialModel *string,
 	initialPrompt *string,
 	initialAgent *string,
@@ -114,7 +114,7 @@ func New(
 	util.RootPath = project.Worktree
 	util.CwdPath, _ = os.Getwd()
 
-	configInfo, err := httpClient.Config.Get(ctx, axoncode.ConfigGetParams{})
+	configInfo, err := httpClient.Config.Get(ctx, opencode.ConfigGetParams{})
 	if err != nil {
 		return nil, err
 	}
@@ -138,15 +138,15 @@ func New(
 		appState.Theme = configInfo.Theme
 	}
 
-	themeEnv := os.Getenv("axoncode_THEME")
+	themeEnv := os.Getenv("OPENCODE_THEME")
 	if themeEnv != "" {
 		appState.Theme = themeEnv
 	}
 
-	agentIndex := slices.IndexFunc(agents, func(a axoncode.Agent) bool {
+	agentIndex := slices.IndexFunc(agents, func(a opencode.Agent) bool {
 		return a.Mode != "subagent"
 	})
-	var agent *axoncode.Agent
+	var agent *opencode.Agent
 	modeName := "build"
 	if appState.Agent != "" {
 		modeName = appState.Agent
@@ -189,7 +189,7 @@ func New(
 
 	slog.Debug("Loaded config", "config", configInfo)
 
-	customCommands, err := httpClient.Command.List(ctx, axoncode.CommandListParams{})
+	customCommands, err := httpClient.Command.List(ctx, opencode.CommandListParams{})
 	if err != nil {
 		return nil, err
 	}
@@ -203,7 +203,7 @@ func New(
 		State:          appState,
 		Client:         httpClient,
 		AgentIndex:     agentIndex,
-		Session:        &axoncode.Session{},
+		Session:        &opencode.Session{},
 		Messages:       []Message{},
 		Commands:       commands.LoadFromConfig(configInfo, *customCommands),
 		InitialModel:   initialModel,
@@ -412,9 +412,9 @@ func (a *App) SwitchToAgent(agentName string) (*App, tea.Cmd) {
 
 // findModelByFullID finds a model by its full ID in the format "provider/model"
 func findModelByFullID(
-	providers []axoncode.Provider,
+	providers []opencode.Provider,
 	fullModelID string,
-) (*axoncode.Provider, *axoncode.Model) {
+) (*opencode.Provider, *opencode.Model) {
 	modelParts := strings.SplitN(fullModelID, "/", 2)
 	if len(modelParts) < 2 {
 		return nil, nil
@@ -428,9 +428,9 @@ func findModelByFullID(
 
 // findModelByProviderAndModelID finds a model by provider ID and model ID
 func findModelByProviderAndModelID(
-	providers []axoncode.Provider,
+	providers []opencode.Provider,
 	providerID, modelID string,
-) (*axoncode.Provider, *axoncode.Model) {
+) (*opencode.Provider, *opencode.Model) {
 	for _, provider := range providers {
 		if provider.ID != providerID {
 			continue
@@ -451,7 +451,7 @@ func findModelByProviderAndModelID(
 }
 
 // findProviderByID finds a provider by its ID
-func findProviderByID(providers []axoncode.Provider, providerID string) *axoncode.Provider {
+func findProviderByID(providers []opencode.Provider, providerID string) *opencode.Provider {
 	for _, provider := range providers {
 		if provider.ID == providerID {
 			return &provider
@@ -461,7 +461,7 @@ func findProviderByID(providers []axoncode.Provider, providerID string) *axoncod
 }
 
 func (a *App) InitializeProvider() tea.Cmd {
-	providersResponse, err := a.Client.App.Providers(context.Background(), axoncode.AppProvidersParams{})
+	providersResponse, err := a.Client.App.Providers(context.Background(), opencode.AppProvidersParams{})
 	if err != nil {
 		slog.Error("Failed to list providers", "error", err)
 		// TODO: notify user
@@ -481,8 +481,8 @@ func (a *App) InitializeProvider() tea.Cmd {
 		a.State.Model = model.ModelID
 	}
 
-	var selectedProvider *axoncode.Provider
-	var selectedModel *axoncode.Model
+	var selectedProvider *opencode.Provider
+	var selectedModel *opencode.Model
 
 	// Priority 1: Command line --model flag (InitialModel)
 	if a.InitialModel != nil && *a.InitialModel != "" {
@@ -639,9 +639,9 @@ func (a *App) InitializeProvider() tea.Cmd {
 }
 
 func getDefaultModel(
-	response *axoncode.AppProvidersResponse,
-	provider axoncode.Provider,
-) *axoncode.Model {
+	response *opencode.AppProvidersResponse,
+	provider opencode.Provider,
+) *opencode.Model {
 	if match, ok := response.Default[provider.ID]; ok {
 		model := provider.Models[match]
 		return &model
@@ -661,7 +661,7 @@ func (a *App) IsBusy() bool {
 		return true
 	}
 	lastMessage := a.Messages[len(a.Messages)-1]
-	if casted, ok := lastMessage.Info.(axoncode.AssistantMessage); ok {
+	if casted, ok := lastMessage.Info.(opencode.AssistantMessage); ok {
 		return casted.Time.Completed == 0
 	}
 	return false
@@ -677,14 +677,14 @@ func (a *App) IsCompacting() bool {
 func (a *App) HasAnimatingWork() bool {
 	for _, msg := range a.Messages {
 		switch casted := msg.Info.(type) {
-		case axoncode.AssistantMessage:
+		case opencode.AssistantMessage:
 			if casted.Time.Completed == 0 {
 				return true
 			}
 		}
 		for _, p := range msg.Parts {
-			if tp, ok := p.(axoncode.ToolPart); ok {
-				if tp.State.Status == axoncode.ToolPartStateStatusPending {
+			if tp, ok := p.(opencode.ToolPart); ok {
+				if tp.State.Status == opencode.ToolPartStateStatusPending {
 					return true
 				}
 			}
@@ -716,10 +716,10 @@ func (a *App) InitializeProject(ctx context.Context) tea.Cmd {
 	cmds = append(cmds, util.CmdHandler(SessionCreatedMsg{Session: session}))
 
 	go func() {
-		_, err := a.Client.Session.Init(ctx, a.Session.ID, axoncode.SessionInitParams{
-			MessageID:  axoncode.F(id.Ascending(id.Message)),
-			ProviderID: axoncode.F(a.Provider.ID),
-			ModelID:    axoncode.F(a.Model.ID),
+		_, err := a.Client.Session.Init(ctx, a.Session.ID, opencode.SessionInitParams{
+			MessageID:  opencode.F(id.Ascending(id.Message)),
+			ProviderID: opencode.F(a.Provider.ID),
+			ModelID:    opencode.F(a.Model.ID),
 		})
 		if err != nil {
 			slog.Error("Failed to initialize project", "error", err)
@@ -746,9 +746,9 @@ func (a *App) CompactSession(ctx context.Context) tea.Cmd {
 		_, err := a.Client.Session.Summarize(
 			compactCtx,
 			a.Session.ID,
-			axoncode.SessionSummarizeParams{
-				ProviderID: axoncode.F(a.Provider.ID),
-				ModelID:    axoncode.F(a.Model.ID),
+			opencode.SessionSummarizeParams{
+				ProviderID: opencode.F(a.Provider.ID),
+				ModelID:    opencode.F(a.Model.ID),
 			},
 		)
 		if err != nil {
@@ -772,8 +772,8 @@ func (a *App) MarkProjectInitialized(ctx context.Context) error {
 	*/
 }
 
-func (a *App) CreateSession(ctx context.Context) (*axoncode.Session, error) {
-	session, err := a.Client.Session.New(ctx, axoncode.SessionNewParams{})
+func (a *App) CreateSession(ctx context.Context) (*opencode.Session, error) {
+	session, err := a.Client.Session.New(ctx, opencode.SessionNewParams{})
 	if err != nil {
 		return nil, err
 	}
@@ -797,14 +797,14 @@ func (a *App) SendPrompt(ctx context.Context, prompt Prompt) (*App, tea.Cmd) {
 	a.Messages = append(a.Messages, message)
 
 	cmds = append(cmds, func() tea.Msg {
-		_, err := a.Client.Session.Prompt(ctx, a.Session.ID, axoncode.SessionPromptParams{
-			Model: axoncode.F(axoncode.SessionPromptParamsModel{
-				ProviderID: axoncode.F(a.Provider.ID),
-				ModelID:    axoncode.F(a.Model.ID),
+		_, err := a.Client.Session.Prompt(ctx, a.Session.ID, opencode.SessionPromptParams{
+			Model: opencode.F(opencode.SessionPromptParamsModel{
+				ProviderID: opencode.F(a.Provider.ID),
+				ModelID:    opencode.F(a.Model.ID),
 			}),
-			Agent:     axoncode.F(a.Agent().Name),
-			MessageID: axoncode.F(messageID),
-			Parts:     axoncode.F(message.ToSessionChatParams()),
+			Agent:     opencode.F(a.Agent().Name),
+			MessageID: opencode.F(messageID),
+			Parts:     opencode.F(message.ToSessionChatParams()),
 		})
 		if err != nil {
 			errormsg := fmt.Sprintf("failed to send message: %v", err)
@@ -831,13 +831,13 @@ func (a *App) SendCommand(ctx context.Context, command string, args string) (*Ap
 	}
 
 	cmds = append(cmds, func() tea.Msg {
-		params := axoncode.SessionCommandParams{
-			Command:   axoncode.F(command),
-			Arguments: axoncode.F(args),
-			Agent:     axoncode.F(a.Agents[a.AgentIndex].Name),
+		params := opencode.SessionCommandParams{
+			Command:   opencode.F(command),
+			Arguments: opencode.F(args),
+			Agent:     opencode.F(a.Agents[a.AgentIndex].Name),
 		}
 		if a.Provider != nil && a.Model != nil {
-			params.Model = axoncode.F(a.Provider.ID + "/" + a.Model.ID)
+			params.Model = opencode.F(a.Provider.ID + "/" + a.Model.ID)
 		}
 		_, err := a.Client.Session.Command(
 			context.Background(),
@@ -871,9 +871,9 @@ func (a *App) SendShell(ctx context.Context, command string) (*App, tea.Cmd) {
 		_, err := a.Client.Session.Shell(
 			context.Background(),
 			a.Session.ID,
-			axoncode.SessionShellParams{
-				Agent:   axoncode.F(a.Agent().Name),
-				Command: axoncode.F(command),
+			opencode.SessionShellParams{
+				Agent:   opencode.F(a.Agent().Name),
+				Command: opencode.F(command),
 			},
 		)
 		if err != nil {
@@ -895,7 +895,7 @@ func (a *App) Cancel(ctx context.Context, sessionID string) error {
 		a.compactCancel = nil
 	}
 
-	_, err := a.Client.Session.Abort(ctx, sessionID, axoncode.SessionAbortParams{})
+	_, err := a.Client.Session.Abort(ctx, sessionID, opencode.SessionAbortParams{})
 	if err != nil {
 		slog.Error("Failed to cancel session", "error", err)
 		return err
@@ -903,20 +903,20 @@ func (a *App) Cancel(ctx context.Context, sessionID string) error {
 	return nil
 }
 
-func (a *App) ListSessions(ctx context.Context) ([]axoncode.Session, error) {
-	response, err := a.Client.Session.List(ctx, axoncode.SessionListParams{})
+func (a *App) ListSessions(ctx context.Context) ([]opencode.Session, error) {
+	response, err := a.Client.Session.List(ctx, opencode.SessionListParams{})
 	if err != nil {
 		return nil, err
 	}
 	if response == nil {
-		return []axoncode.Session{}, nil
+		return []opencode.Session{}, nil
 	}
 	sessions := *response
 	return sessions, nil
 }
 
 func (a *App) DeleteSession(ctx context.Context, sessionID string) error {
-	_, err := a.Client.Session.Delete(ctx, sessionID, axoncode.SessionDeleteParams{})
+	_, err := a.Client.Session.Delete(ctx, sessionID, opencode.SessionDeleteParams{})
 	if err != nil {
 		slog.Error("Failed to delete session", "error", err)
 		return err
@@ -925,8 +925,8 @@ func (a *App) DeleteSession(ctx context.Context, sessionID string) error {
 }
 
 func (a *App) UpdateSession(ctx context.Context, sessionID string, title string) error {
-	_, err := a.Client.Session.Update(ctx, sessionID, axoncode.SessionUpdateParams{
-		Title: axoncode.F(title),
+	_, err := a.Client.Session.Update(ctx, sessionID, opencode.SessionUpdateParams{
+		Title: opencode.F(title),
 	})
 	if err != nil {
 		slog.Error("Failed to update session", "error", err)
@@ -936,7 +936,7 @@ func (a *App) UpdateSession(ctx context.Context, sessionID string, title string)
 }
 
 func (a *App) ListMessages(ctx context.Context, sessionId string) ([]Message, error) {
-	response, err := a.Client.Session.Messages(ctx, sessionId, axoncode.SessionMessagesParams{})
+	response, err := a.Client.Session.Messages(ctx, sessionId, opencode.SessionMessagesParams{})
 	if err != nil {
 		return nil, err
 	}
@@ -947,7 +947,7 @@ func (a *App) ListMessages(ctx context.Context, sessionId string) ([]Message, er
 	for _, message := range *response {
 		msg := Message{
 			Info:  message.Info.AsUnion(),
-			Parts: []axoncode.PartUnion{},
+			Parts: []opencode.PartUnion{},
 		}
 		for _, part := range message.Parts {
 			msg.Parts = append(msg.Parts, part.AsUnion())
@@ -957,13 +957,13 @@ func (a *App) ListMessages(ctx context.Context, sessionId string) ([]Message, er
 	return messages, nil
 }
 
-func (a *App) ListProviders(ctx context.Context) ([]axoncode.Provider, error) {
-	response, err := a.Client.App.Providers(ctx, axoncode.AppProvidersParams{})
+func (a *App) ListProviders(ctx context.Context) ([]opencode.Provider, error) {
+	response, err := a.Client.App.Providers(ctx, opencode.AppProvidersParams{})
 	if err != nil {
 		return nil, err
 	}
 	if response == nil {
-		return []axoncode.Provider{}, nil
+		return []opencode.Provider{}, nil
 	}
 
 	providers := *response

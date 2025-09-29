@@ -1,6 +1,6 @@
 import type {
   Event,
-  createaxoncodeClient,
+  createOpencodeClient,
   Project,
   Model,
   Provider,
@@ -17,7 +17,7 @@ import { type ToolDefinition } from "./tool"
 export * from "./tool"
 
 export type PluginInput = {
-  client: ReturnType<typeof createaxoncodeClient>
+  client: ReturnType<typeof createOpencodeClient>
   project: Project
   directory: string
   worktree: string

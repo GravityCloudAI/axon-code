@@ -1,9 +1,9 @@
 ---
 title: Plugins
-description: Write your own plugins to extend axoncode.
+description: Write your own plugins to extend opencode.
 ---
 
-Plugins allow you to extend axoncode by hooking into various events and customizing behavior. You can create plugins to add new features, integrate with external services, or modify axoncode's default behavior.
+Plugins allow you to extend opencode by hooking into various events and customizing behavior. You can create plugins to add new features, integrate with external services, or modify opencode's default behavior.
 
 ---
 
@@ -18,14 +18,14 @@ functions. Each function receives a context object and returns a hooks object.
 
 Plugins are loaded from:
 
-1. `.axoncode/plugin` directory either in your project
-2. Or, globally in `~/.config/axoncode/plugin`
+1. `.opencode/plugin` directory either in your project
+2. Or, globally in `~/.config/opencode/plugin`
 
 ---
 
 ### Basic structure
 
-```js title=".axoncode/plugin/example.js"
+```js title=".opencode/plugin/example.js"
 export const MyPlugin = async ({ project, client, $, directory, worktree }) => {
   console.log("Plugin initialized!")
 
@@ -40,7 +40,7 @@ The plugin function receives:
 - `project`: The current project information.
 - `directory`: The current working directory.
 - `worktree`: The git worktree path.
-- `client`: An axoncode SDK client for interacting with the AI.
+- `client`: An opencode SDK client for interacting with the AI.
 - `$`: Bun's [shell API](https://bun.com/docs/runtime/shell) for executing commands.
 
 ---
@@ -63,7 +63,7 @@ export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree
 
 ## Examples
 
-Here are some examples of plugins you can use to extend axoncode.
+Here are some examples of plugins you can use to extend opencode.
 
 ---
 
@@ -71,13 +71,13 @@ Here are some examples of plugins you can use to extend axoncode.
 
 Send notifications when certain events occur:
 
-```js title=".axoncode/plugin/notification.js"
+```js title=".opencode/plugin/notification.js"
 export const NotificationPlugin = async ({ project, client, $, directory, worktree }) => {
   return {
     event: async ({ event }) => {
       // Send notification on session completion
       if (event.type === "session.idle") {
-        await $`osascript -e 'display notification "Session completed!" with title "axoncode"'`
+        await $`osascript -e 'display notification "Session completed!" with title "opencode"'`
       }
     },
   }
@@ -90,9 +90,9 @@ We are using `osascript` to run AppleScript on macOS. Here we are using it to se
 
 ### .env protection
 
-Prevent axoncode from reading `.env` files:
+Prevent opencode from reading `.env` files:
 
-```javascript title=".axoncode/plugin/env-protection.js"
+```javascript title=".opencode/plugin/env-protection.js"
 export const EnvProtection = async ({ project, client, $, directory, worktree }) => {
   return {
     "tool.execute.before": async (input, output) => {
@@ -108,9 +108,9 @@ export const EnvProtection = async ({ project, client, $, directory, worktree })
 
 ### Custom tools
 
-Plugins can also add custom tools to axoncode:
+Plugins can also add custom tools to opencode:
 
-```ts title=".axoncode/plugin/custom-tools.ts"
+```ts title=".opencode/plugin/custom-tools.ts"
 import type { Plugin, tool } from "@opencode-ai/plugin"
 
 export const CustomToolsPlugin: Plugin = async (ctx) => {
@@ -130,10 +130,10 @@ export const CustomToolsPlugin: Plugin = async (ctx) => {
 }
 ```
 
-The `tool` helper creates a custom tool that axoncode can call. It takes a Zod schema function and returns a tool definition with:
+The `tool` helper creates a custom tool that opencode can call. It takes a Zod schema function and returns a tool definition with:
 
 - `description`: What the tool does
 - `args`: Zod schema for the tool's arguments
 - `execute`: Function that runs when the tool is called
 
-Your custom tools will be available to axoncode alongside built-in tools.
+Your custom tools will be available to opencode alongside built-in tools.

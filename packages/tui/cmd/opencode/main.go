@@ -11,13 +11,13 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea/v2"
 	flag "github.com/spf13/pflag"
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode-sdk-go/option"
-	"github.com/sst/axoncode/internal/api"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/clipboard"
-	"github.com/sst/axoncode/internal/tui"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode-sdk-go/option"
+	"github.com/sst/opencode/internal/api"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/clipboard"
+	"github.com/sst/opencode/internal/tui"
+	"github.com/sst/opencode/internal/util"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -35,7 +35,7 @@ func main() {
 	var sessionID *string = flag.String("session", "", "session ID")
 	flag.Parse()
 
-	url := os.Getenv("axoncode_SERVER")
+	url := os.Getenv("OPENCODE_SERVER")
 
 	stat, err := os.Stdin.Stat()
 	if err != nil {
@@ -61,18 +61,18 @@ func main() {
 		}
 	}
 
-	httpClient := axoncode.NewClient(
+	httpClient := opencode.NewClient(
 		option.WithBaseURL(url),
 	)
 
-	var agents []axoncode.Agent
-	var path *axoncode.Path
-	var project *axoncode.Project
+	var agents []opencode.Agent
+	var path *opencode.Path
+	var project *opencode.Project
 
 	batch := errgroup.Group{}
 
 	batch.Go(func() error {
-		result, err := httpClient.Project.Current(context.Background(), axoncode.ProjectCurrentParams{})
+		result, err := httpClient.Project.Current(context.Background(), opencode.ProjectCurrentParams{})
 		if err != nil {
 			return err
 		}
@@ -81,7 +81,7 @@ func main() {
 	})
 
 	batch.Go(func() error {
-		result, err := httpClient.Agent.List(context.Background(), axoncode.AgentListParams{})
+		result, err := httpClient.Agent.List(context.Background(), opencode.AgentListParams{})
 		if err != nil {
 			return err
 		}
@@ -90,7 +90,7 @@ func main() {
 	})
 
 	batch.Go(func() error {
-		result, err := httpClient.Path.Get(context.Background(), axoncode.PathGetParams{})
+		result, err := httpClient.Path.Get(context.Background(), opencode.PathGetParams{})
 		if err != nil {
 			return err
 		}
@@ -136,7 +136,7 @@ func main() {
 	signal.Notify(sigChan, syscall.SIGTERM, syscall.SIGINT)
 
 	go func() {
-		stream := httpClient.Event.ListStreaming(ctx, axoncode.EventListParams{})
+		stream := httpClient.Event.ListStreaming(ctx, opencode.EventListParams{})
 		for stream.Next() {
 			evt := stream.Current().AsUnion()
 			program.Send(evt)

@@ -3,23 +3,23 @@ package app
 import (
 	"testing"
 
-	"github.com/sst/axoncode-sdk-go"
+	"github.com/sst/opencode-sdk-go"
 )
 
 // TestFindModelByFullID tests the findModelByFullID function
 func TestFindModelByFullID(t *testing.T) {
 	// Create test providers with models
-	providers := []axoncode.Provider{
+	providers := []opencode.Provider{
 		{
 			ID: "anthropic",
-			Models: map[string]axoncode.Model{
+			Models: map[string]opencode.Model{
 				"claude-3-opus-20240229":   {ID: "claude-3-opus-20240229"},
 				"claude-3-sonnet-20240229": {ID: "claude-3-sonnet-20240229"},
 			},
 		},
 		{
 			ID: "openai",
-			Models: map[string]axoncode.Model{
+			Models: map[string]opencode.Model{
 				"gpt-4":         {ID: "gpt-4"},
 				"gpt-3.5-turbo": {ID: "gpt-3.5-turbo"},
 			},
@@ -98,17 +98,17 @@ func TestFindModelByFullID(t *testing.T) {
 // TestFindModelByProviderAndModelID tests the findModelByProviderAndModelID function
 func TestFindModelByProviderAndModelID(t *testing.T) {
 	// Create test providers with models
-	providers := []axoncode.Provider{
+	providers := []opencode.Provider{
 		{
 			ID: "anthropic",
-			Models: map[string]axoncode.Model{
+			Models: map[string]opencode.Model{
 				"claude-3-opus-20240229":   {ID: "claude-3-opus-20240229"},
 				"claude-3-sonnet-20240229": {ID: "claude-3-sonnet-20240229"},
 			},
 		},
 		{
 			ID: "openai",
-			Models: map[string]axoncode.Model{
+			Models: map[string]opencode.Model{
 				"gpt-4":         {ID: "gpt-4"},
 				"gpt-3.5-turbo": {ID: "gpt-3.5-turbo"},
 			},
@@ -180,7 +180,7 @@ func TestFindModelByProviderAndModelID(t *testing.T) {
 // TestFindProviderByID tests the findProviderByID function
 func TestFindProviderByID(t *testing.T) {
 	// Create test providers
-	providers := []axoncode.Provider{
+	providers := []opencode.Provider{
 		{ID: "anthropic"},
 		{ID: "openai"},
 		{ID: "google"},

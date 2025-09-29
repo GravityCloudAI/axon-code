@@ -11,12 +11,12 @@ import (
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/charmbracelet/lipgloss/v2/compat"
 	"github.com/fsnotify/fsnotify"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/commands"
-	"github.com/sst/axoncode/internal/layout"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/commands"
+	"github.com/sst/opencode/internal/layout"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 type GitBranchUpdatedMsg struct {
@@ -67,11 +67,11 @@ func (m *statusComponent) logo() string {
 		Bold(true).
 		Render
 
-	axon := base("axon")
+	open := base("open")
 	code := emphasis("code")
 	version := base(" " + m.app.Version)
 
-	content := axon + code
+	content := open + code
 	if m.width > 40 {
 		content += version
 	}

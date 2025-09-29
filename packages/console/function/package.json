@@ -1,5 +1,5 @@
 {
-  "name": "@axoncode/console-function",
+  "name": "@opencode/console-function",
   "version": "0.12.1",
   "$schema": "https://json.schemastore.org/package.json",
   "private": true,

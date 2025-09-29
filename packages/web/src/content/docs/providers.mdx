@@ -1,30 +1,30 @@
 ---
 title: Providers
-description: Using any LLM provider in axoncode.
+description: Using any LLM provider in opencode.
 ---
 
 import config from "../../../config.mjs"
 export const console = config.console
 
-axoncode uses the [AI SDK](https://ai-sdk.dev/) and [Models.dev](https://models.dev) to support for **75+ LLM providers** and it supports running local models.
+opencode uses the [AI SDK](https://ai-sdk.dev/) and [Models.dev](https://models.dev) to support for **75+ LLM providers** and it supports running local models.
 
 To add a provider you need to:
 
-1. Add the API keys for the provider using `axoncode auth login`.
-2. Configure the provider in your axoncode config.
+1. Add the API keys for the provider using `opencode auth login`.
+2. Configure the provider in your opencode config.
 
 ---
 
 ### Credentials
 
-When you add a provider's API keys with `axoncode auth login`, they are stored
-in `~/.local/share/axoncode/auth.json`.
+When you add a provider's API keys with `opencode auth login`, they are stored
+in `~/.local/share/opencode/auth.json`.
 
 ---
 
 ### Config
 
-You can customize the providers through the `provider` section in your axoncode
+You can customize the providers through the `provider` section in your opencode
 config.
 
 ---
@@ -33,9 +33,9 @@ config.
 
 You can customize the base URL for any provider by setting the `baseURL` option. This is useful when using proxy services or custom endpoints.
 
-```json title="axoncode.json" {6}
+```json title="opencode.json" {6}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -48,28 +48,28 @@ You can customize the base URL for any provider by setting the `baseURL` option.
 
 ---
 
-## axoncode zen
+## opencode zen
 
-axoncode zen is a list of models provided by the axoncode team that have been
-tested and verified to work well with axoncode. [Learn more](/docs/zen).
+opencode zen is a list of models provided by the opencode team that have been
+tested and verified to work well with opencode. [Learn more](/docs/zen).
 
 :::tip
-If you are new, we recommend starting with axoncode zen.
+If you are new, we recommend starting with opencode zen.
 :::
 
-1. Run `axoncode auth login`, select axoncode, and head to [axoncode.ai/auth](https://axoncode.ai/auth).
+1. Run `opencode auth login`, select opencode, and head to [opencode.ai/auth](https://opencode.ai/auth).
 2. Sign in, add your billing details, and copy your API key.
 3. Paste your API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
    ◇  Select provider
-   │  axoncode
+   │  opencode
    │
-   ●  Create an api key at https://axoncode.ai/auth
+   ●  Create an api key at https://opencode.ai/auth
    │
    ◆  Enter your API key
    │  _
@@ -78,7 +78,7 @@ If you are new, we recommend starting with axoncode zen.
 
 4. Run `/models` in the TUI to see the list of models we recommend.
 
-It works like any other provider in axoncode. And is completely optional to use
+It works like any other provider in opencode. And is completely optional to use
 it.
 
 ---
@@ -96,7 +96,7 @@ Don't see a provider here? Submit a PR.
 
 ### Amazon Bedrock
 
-To use Amazon Bedrock with axoncode:
+To use Amazon Bedrock with opencode:
 
 1. Head over to the **Model catalog** in the Amazon Bedrock console and request
    access to the models you want.
@@ -113,10 +113,10 @@ To use Amazon Bedrock with axoncode:
    - `AWS_BEARER_TOKEN_BEDROCK`: You can generate a long-term API key from the
      Amazon Bedrock console.
 
-   Once you have one of the above, set it while running axoncode.
+   Once you have one of the above, set it while running opencode.
 
    ```bash
-   AWS_ACCESS_KEY_ID=XXX axoncode
+   AWS_ACCESS_KEY_ID=XXX opencode
    ```
 
    Or add it to a `.env` file in the project root.
@@ -137,12 +137,12 @@ To use Amazon Bedrock with axoncode:
 
 ### Anthropic
 
-We recommend signing up for [Claude Pro](https://www.anthropic.com/news/claude-pro) or [Max](https://www.anthropic.com/max), it's the most cost-effective way to use axoncode.
+We recommend signing up for [Claude Pro](https://www.anthropic.com/news/claude-pro) or [Max](https://www.anthropic.com/max), it's the most cost-effective way to use opencode.
 
-Once you've signed up, run `axoncode auth login` and select Anthropic.
+Once you've signed up, run `opencode auth login` and select Anthropic.
 
 ```bash
-$ axoncode auth login
+$ opencode auth login
 
 ┌  Add credential
 │
@@ -156,7 +156,7 @@ Here you can select the **Claude Pro/Max** option and it'll open your browser
 and ask you to authenticate.
 
 ```bash
-$ axoncode auth login
+$ opencode auth login
 ┌  Add credential
 │
 ◇  Select provider
@@ -188,13 +188,13 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 2. Go to [Azure AI Foundry](https://ai.azure.com/) and deploy a model.
 
    :::note
-   The deployment name must match the model name for axoncode to work properly.
+   The deployment name must match the model name for opencode to work properly.
    :::
 
-3. Run `axoncode auth login` and select **Azure**.
+3. Run `opencode auth login` and select **Azure**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -207,7 +207,7 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 4. Enter your API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -222,7 +222,7 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 5. Set your resource name as an environment variable:
 
    ```bash
-   AZURE_RESOURCE_NAME=XXX axoncode
+   AZURE_RESOURCE_NAME=XXX opencode
    ```
 
    Or add it to a `.env` file in the project root:
@@ -245,10 +245,10 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 
 1. Head over to the [Cerebras console](https://inference.cerebras.ai/), create an account, and generate an API key.
 
-2. Run `axoncode auth login` and select **Cerebras**.
+2. Run `opencode auth login` and select **Cerebras**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -261,7 +261,7 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 3. Enter your Cerebras API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -281,10 +281,10 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 
 1. Head over to the [DeepSeek console](https://platform.deepseek.com/), create an account, and click **Create new API key**.
 
-2. Run `axoncode auth login` and select **DeepSeek**.
+2. Run `opencode auth login` and select **DeepSeek**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -297,7 +297,7 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 3. Enter your DeepSeek API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -317,10 +317,10 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 
 1. Head over to the [Fireworks AI console](https://app.fireworks.ai/), create an account, and click **Create API Key**.
 
-2. Run `axoncode auth login` and select **Fireworks AI**.
+2. Run `opencode auth login` and select **Fireworks AI**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -333,7 +333,7 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 3. Enter your Fireworks AI API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -351,7 +351,7 @@ Or if you already have an API key, you can select **Manually enter API Key** and
 
 ### GitHub Copilot
 
-To use your GitHub Copilot subscription with axoncode:
+To use your GitHub Copilot subscription with opencode:
 
 :::note
 Some models might need a [Pro+
@@ -360,10 +360,10 @@ subscription](https://github.com/features/copilot/plans) to use.
 Some models need to be manually enabled in your [GitHub Copilot settings](https://docs.github.com/en/copilot/how-tos/use-ai-models/configure-access-to-ai-models#setup-for-individual-use).
 :::
 
-1. Run `axoncode auth login` and select GitHub Copilot.
+1. Run `opencode auth login` and select GitHub Copilot.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
    ┌  Add credential
 
    │
@@ -390,10 +390,10 @@ Some models need to be manually enabled in your [GitHub Copilot settings](https:
 
 1. Head over to the [Groq console](https://console.groq.com/), click **Create API Key**, and copy the key.
 
-2. Run `axoncode auth login` and select Groq.
+2. Run `opencode auth login` and select Groq.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -406,7 +406,7 @@ Some models need to be manually enabled in your [GitHub Copilot settings](https:
 3. Enter the API key for the provider.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -424,11 +424,11 @@ Some models need to be manually enabled in your [GitHub Copilot settings](https:
 
 ### LM Studio
 
-You can configure axoncode to use local models through LM Studio.
+You can configure opencode to use local models through LM Studio.
 
-```json title="axoncode.json" "lmstudio" {5, 6, 8, 10-14}
+```json title="opencode.json" "lmstudio" {5, 6, 8, 10-14}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "provider": {
     "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
@@ -462,10 +462,10 @@ To use Kimi K2 from Moonshot AI:
 
 1. Head over to the [Moonshot AI console](https://platform.moonshot.ai/console), create an account, and click **Create API key**.
 
-2. Run `axoncode auth login` and select **Moonshot AI**.
+2. Run `opencode auth login` and select **Moonshot AI**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -478,7 +478,7 @@ To use Kimi K2 from Moonshot AI:
 3. Enter your Moonshot API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -496,11 +496,11 @@ To use Kimi K2 from Moonshot AI:
 
 ### Ollama
 
-You can configure axoncode to use local models through Ollama.
+You can configure opencode to use local models through Ollama.
 
-```json title="axoncode.json" "ollama" {5, 6, 8, 10-14}
+```json title="opencode.json" "ollama" {5, 6, 8, 10-14}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -532,10 +532,10 @@ In this example:
 
 1. Head over to the [OpenAI Platform console](https://platform.openai.com/api-keys), click **Create new secret key**, and copy the key.
 
-2. Run `axoncode auth login` and select OpenAI.
+2. Run `opencode auth login` and select OpenAI.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -548,7 +548,7 @@ In this example:
 3. Enter the API key for the provider.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -564,34 +564,34 @@ In this example:
 
 ---
 
-### axoncode zen
+### opencode zen
 
-axoncode zen is a list of tested and verified models provided by the axoncode team. [Learn more](/docs/zen).
+opencode zen is a list of tested and verified models provided by the opencode team. [Learn more](/docs/zen).
 
-1. Sign in to **<a href={console}>axoncode zen</a>** and click **Create API Key**.
+1. Sign in to **<a href={console}>opencode zen</a>** and click **Create API Key**.
 
-2. Run `axoncode auth login` and select **axoncode zen**.
+2. Run `opencode auth login` and select **opencode zen**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
    ◆  Select provider
-   │  ● axoncode zen
+   │  ● opencode zen
    │  ...
    └
    ```
 
-3. Enter your axoncode API key.
+3. Enter your opencode API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
    ◇  Select provider
-   │  axoncode zen
+   │  opencode zen
    │
    ◇  Enter your API key
    │  _
@@ -606,10 +606,10 @@ axoncode zen is a list of tested and verified models provided by the axoncode te
 
 1. Head over to the [OpenRouter dashboard](https://openrouter.ai/settings/keys), click **Create API Key**, and copy the key.
 
-2. Run `axoncode auth login` and select OpenRouter.
+2. Run `opencode auth login` and select OpenRouter.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -624,7 +624,7 @@ axoncode zen is a list of tested and verified models provided by the axoncode te
 3. Enter the API key for the provider.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -638,11 +638,11 @@ axoncode zen is a list of tested and verified models provided by the axoncode te
 
 4. Many OpenRouter models are preloaded by default, run the `/models` command to select the one you want.
 
-   You can also add additional models through your axoncode config.
+   You can also add additional models through your opencode config.
 
-   ```json title="axoncode.json" {6}
+   ```json title="opencode.json" {6}
    {
-     "$schema": "https://axoncode.ai/config.json",
+     "$schema": "https://opencode.ai/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -653,11 +653,11 @@ axoncode zen is a list of tested and verified models provided by the axoncode te
    }
    ```
 
-5. You can also customize them through your axoncode config. Here's an example of specifying a provider
+5. You can also customize them through your opencode config. Here's an example of specifying a provider
 
-   ```json title="axoncode.json"
+   ```json title="opencode.json"
    {
-     "$schema": "https://axoncode.ai/config.json",
+     "$schema": "https://opencode.ai/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -681,10 +681,10 @@ axoncode zen is a list of tested and verified models provided by the axoncode te
 
 1. Head over to the [Together AI console](https://api.together.ai), create an account, and click **Add Key**.
 
-2. Run `axoncode auth login` and select **Together AI**.
+2. Run `opencode auth login` and select **Together AI**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -697,7 +697,7 @@ axoncode zen is a list of tested and verified models provided by the axoncode te
 3. Enter your Together AI API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -715,13 +715,13 @@ axoncode zen is a list of tested and verified models provided by the axoncode te
 
 ### xAI
 
-For a limited time, you can use xAI's Grok Code for free with axoncode.
+For a limited time, you can use xAI's Grok Code for free with opencode.
 
 :::tip
-Grok Code is available for free for a limited time on axoncode.
+Grok Code is available for free for a limited time on opencode.
 :::
 
-1. Make sure you are on the latest version of axoncode.
+1. Make sure you are on the latest version of opencode.
 
 2. Run the `/models` command and select **Grok Code Free**.
 
@@ -734,10 +734,10 @@ monitor and improve Grok Code.
 
 1. Head over to the [Z.AI API console](https://z.ai/manage-apikey/apikey-list), create an account, and click **Create a new API key**.
 
-2. Run `axoncode auth login` and select **Z.AI**.
+2. Run `opencode auth login` and select **Z.AI**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -750,7 +750,7 @@ monitor and improve Grok Code.
    If you are subscribed to the **GLM Coding Plan**, select **Z.AI Coding Plan**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -763,7 +763,7 @@ monitor and improve Grok Code.
 3. Enter your Z.AI API key.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -781,16 +781,16 @@ monitor and improve Grok Code.
 
 ## Custom provider
 
-To add any **OpenAI-compatible** provider that's not listed in `axoncode auth login`:
+To add any **OpenAI-compatible** provider that's not listed in `opencode auth login`:
 
 :::tip
-You can use any OpenAI-compatible provider with axoncode. Most modern AI providers offer OpenAI-compatible APIs.
+You can use any OpenAI-compatible provider with opencode. Most modern AI providers offer OpenAI-compatible APIs.
 :::
 
-1. Run `axoncode auth login` and scroll down to **Other**.
+1. Run `opencode auth login` and scroll down to **Other**.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -803,7 +803,7 @@ You can use any OpenAI-compatible provider with axoncode. Most modern AI provide
 2. Enter a unique ID for the provider.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
@@ -819,22 +819,22 @@ You can use any OpenAI-compatible provider with axoncode. Most modern AI provide
 3. Enter your API key for the provider.
 
    ```bash
-   $ axoncode auth login
+   $ opencode auth login
 
    ┌  Add credential
    │
-   ▲  This only stores a credential for myprovider - you will need configure it in axoncode.json, check the docs for examples.
+   ▲  This only stores a credential for myprovider - you will need configure it in opencode.json, check the docs for examples.
    │
    ◇  Enter your API key
    │  sk-...
    └
    ```
 
-4. Create or update your `axoncode.json` file in your project directory:
+4. Create or update your `opencode.json` file in your project directory:
 
-   ```json title="axoncode.json" ""myprovider"" {5-15}
+   ```json title="opencode.json" ""myprovider"" {5-15}
    {
-     "$schema": "https://axoncode.ai/config.json",
+     "$schema": "https://opencode.ai/config.json",
      "provider": {
        "myprovider": {
          "npm": "@ai-sdk/openai-compatible",
@@ -870,9 +870,9 @@ You can use any OpenAI-compatible provider with axoncode. Most modern AI provide
 
 Here's an example setting the `apiKey` and `headers` options.
 
-```json title="axoncode.json" {9,11}
+```json title="opencode.json" {9,11}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "provider": {
     "myprovider": {
       "npm": "@ai-sdk/openai-compatible",
@@ -902,12 +902,12 @@ We are setting the `apiKey` using the `env` variable syntax, [learn more](/docs/
 
 If you are having trouble with configuring a provider, check the following:
 
-1. **Check the auth setup**: Run `axoncode auth list` to see if the credentials
+1. **Check the auth setup**: Run `opencode auth list` to see if the credentials
    for the provider are added to your config.
 
    This doesn't apply to providers like Amazon Bedrock, that rely on environment variables for their auth.
 
-2. For custom providers, check the axoncode config and:
-   - Make sure the provider ID used in `axoncode auth login` matches the ID in your axoncode config.
+2. For custom providers, check the opencode config and:
+   - Make sure the provider ID used in `opencode auth login` matches the ID in your opencode config.
    - The right npm package is used for the provider. For example, use `@ai-sdk/cerebras` for Cerebras. And for all other OpenAI-compatible providers, use `@ai-sdk/openai-compatible`.
    - Check correct API endpoint is used in the `options.baseURL` field.

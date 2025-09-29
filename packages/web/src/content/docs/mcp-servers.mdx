@@ -3,7 +3,7 @@ title: MCP servers
 description: Add local and remote MCP tools.
 ---
 
-You can add external tools to axoncode using the _Model Context Protocol_, or MCP. axoncode supports both:
+You can add external tools to opencode using the _Model Context Protocol_, or MCP. opencode supports both:
 
 - Local servers
 - And remote servers
@@ -14,7 +14,7 @@ Once added, MCP tools are automatically available to the LLM alongside built-in 
 
 ## Configure
 
-You can define MCP servers in your axoncode config under `mcp`.
+You can define MCP servers in your opencode config under `mcp`.
 
 ---
 
@@ -22,9 +22,9 @@ You can define MCP servers in your axoncode config under `mcp`.
 
 Add local MCP servers using `"type": "local"` within the MCP object. Multiple MCP servers can be added. The key string for each server can be any arbitrary name.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "my-local-mcp-server": {
       "type": "local",
@@ -51,9 +51,9 @@ You can also disable a server by setting `enabled` to `false`. This is useful if
 
 Add remote MCP servers under `mcp` with `"type": "remote"`.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "my-remote-mcp": {
       "type": "remote",
@@ -69,9 +69,9 @@ Add remote MCP servers under `mcp` with `"type": "remote"`.
 
 Local and remote servers can be used together within the same `mcp` config object.
 
-```json title="axoncode.json"
+```json title="opencode.json"
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "my-local-mcp-server": {
       "type": "local",
@@ -104,9 +104,9 @@ agent and disable them globally. To do this:
 2. Disable it as a tool globally.
 3. In your [agent config](/docs/agents#tools) enable the MCP server as a tool.
 
-```json title="axoncode.json" {11, 14-17}
+```json title="opencode.json" {11, 14-17}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "my-mcp": {
       "type": "local",

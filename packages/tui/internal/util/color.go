@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss/v2/compat"
-	"github.com/sst/axoncode/internal/theme"
+	"github.com/sst/opencode/internal/theme"
 )
 
 var csiRE *regexp.Regexp

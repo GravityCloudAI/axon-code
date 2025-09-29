@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package axoncode_test
+package opencode_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode-sdk-go/internal/testutil"
-	"github.com/sst/axoncode-sdk-go/option"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode-sdk-go/internal/testutil"
+	"github.com/sst/opencode-sdk-go/option"
 )
 
 func TestConfigGetWithOptionalParams(t *testing.T) {
@@ -22,14 +22,14 @@ func TestConfigGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Config.Get(context.TODO(), axoncode.ConfigGetParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Config.Get(context.TODO(), opencode.ConfigGetParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

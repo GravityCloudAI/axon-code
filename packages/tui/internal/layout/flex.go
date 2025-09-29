@@ -5,8 +5,8 @@ import (
 
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/charmbracelet/lipgloss/v2/compat"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
 )
 
 type Direction int
@@ -135,7 +135,7 @@ func Render(opts FlexOptions, items ...FlexItem) string {
 			case AlignCenter:
 				view = lipgloss.PlaceVertical(
 					crossAxisSize,
-					lipgloss.Left,
+					lipgloss.Center,
 					view,
 					styles.WhitespaceStyle(*opts.Background),
 				)
@@ -174,7 +174,7 @@ func Render(opts FlexOptions, items ...FlexItem) string {
 			case AlignCenter:
 				view = lipgloss.PlaceHorizontal(
 					crossAxisSize,
-					lipgloss.Left,
+					lipgloss.Center,
 					view,
 					styles.WhitespaceStyle(*opts.Background),
 				)

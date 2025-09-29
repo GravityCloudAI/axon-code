@@ -13,8 +13,8 @@ import {
   useParams,
   A,
 } from "@solidjs/router"
-import { User } from "@axoncode/console-core/user.js"
-import { Actor } from "@axoncode/console-core/actor.js"
+import { User } from "@opencode/console-core/user.js"
+import { Actor } from "@opencode/console-core/actor.js"
 import { getRequestEvent } from "solid-js/web"
 
 const getUserInfo = query(async (workspaceID: string) => {

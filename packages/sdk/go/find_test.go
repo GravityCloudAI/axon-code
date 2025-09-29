@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package axoncode_test
+package opencode_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode-sdk-go/internal/testutil"
-	"github.com/sst/axoncode-sdk-go/option"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode-sdk-go/internal/testutil"
+	"github.com/sst/opencode-sdk-go/option"
 )
 
 func TestFindFilesWithOptionalParams(t *testing.T) {
@@ -22,15 +22,15 @@ func TestFindFilesWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Find.Files(context.TODO(), axoncode.FindFilesParams{
-		Query:     axoncode.F("query"),
-		Directory: axoncode.F("directory"),
+	_, err := client.Find.Files(context.TODO(), opencode.FindFilesParams{
+		Query:     opencode.F("query"),
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -47,15 +47,15 @@ func TestFindSymbolsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Find.Symbols(context.TODO(), axoncode.FindSymbolsParams{
-		Query:     axoncode.F("query"),
-		Directory: axoncode.F("directory"),
+	_, err := client.Find.Symbols(context.TODO(), opencode.FindSymbolsParams{
+		Query:     opencode.F("query"),
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -72,15 +72,15 @@ func TestFindTextWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Find.Text(context.TODO(), axoncode.FindTextParams{
-		Pattern:   axoncode.F("pattern"),
-		Directory: axoncode.F("directory"),
+	_, err := client.Find.Text(context.TODO(), opencode.FindTextParams{
+		Pattern:   opencode.F("pattern"),
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

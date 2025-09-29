@@ -8,7 +8,7 @@ import path from "path"
 
 import { createClient } from "@hey-api/openapi-ts"
 
-await $`bun dev generate > ${dir}/openapi.json`.cwd(path.resolve(dir, "../../axoncode"))
+await $`bun dev generate > ${dir}/openapi.json`.cwd(path.resolve(dir, "../../opencode"))
 
 await createClient({
   input: "./openapi.json",
@@ -23,7 +23,7 @@ await createClient({
     },
     {
       name: "@hey-api/sdk",
-      instance: "axoncodeClient",
+      instance: "OpencodeClient",
       exportFromIndex: false,
       auth: false,
     },

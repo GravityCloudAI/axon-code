@@ -1,13 +1,13 @@
 ---
 title: SDK
-description: Type-safe JS client for axoncode server.
+description: Type-safe JS client for opencode server.
 ---
 
 import config from "../../../config.mjs"
 export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
 
-The axoncode JS/TS SDK provides a type-safe client for interacting with the server.
-Use it to build integrations and control axoncode programmatically.
+The opencode JS/TS SDK provides a type-safe client for interacting with the server.
+Use it to build integrations and control opencode programmatically.
 
 [Learn more](/docs/server) about how the server works.
 
@@ -28,9 +28,9 @@ npm install @opencode-ai/sdk
 Create a client instance to connect to your server:
 
 ```javascript
-import { createaxoncodeClient } from "@opencode-ai/sdk"
+import { createOpencodeClient } from "@opencode-ai/sdk"
 
-const client = createaxoncodeClient({
+const client = createOpencodeClient({
   baseUrl: "http://localhost:4096",
   responseStyle: "data",
 })
@@ -50,12 +50,12 @@ const client = createaxoncodeClient({
 
 ## Start server
 
-You can also programmatically start an axoncode server:
+You can also programmatically start an opencode server:
 
 ```javascript
-import { createaxoncodeServer } from "@opencode-ai/sdk"
+import { createOpencodeServer } from "@opencode-ai/sdk"
 
-const server = await createaxoncodeServer({
+const server = await createOpencodeServer({
   hostname: "127.0.0.1",
   port: 4096,
 })
@@ -65,12 +65,12 @@ console.log(`Server running at ${server.url}`)
 server.close()
 ```
 
-You can pass a configuration object to customize server behavior. The server still picks up your `axoncode.json`, but you can override or add configuration inline:
+You can pass a configuration object to customize server behavior. The server still picks up your `opencode.json`, but you can override or add configuration inline:
 
 ```javascript
-import { createaxoncodeServer } from "@opencode-ai/sdk"
+import { createOpencodeServer } from "@opencode-ai/sdk"
 
-const server = await createaxoncodeServer({
+const server = await createOpencodeServer({
   hostname: "127.0.0.1",
   port: 4096,
   config: {
@@ -276,7 +276,7 @@ const result = await client.session.prompt({
 ```javascript
 // Search and read files
 const textResults = await client.find.text({
-  query: { pattern: "function.*axoncode" },
+  query: { pattern: "function.*opencode" },
 })
 
 const files = await client.find.files({

@@ -1,11 +1,11 @@
 import { createContext, useContext, type ParentProps } from "solid-js"
-import { createaxoncodeClient } from "@opencode-ai/sdk/client"
+import { createOpencodeClient } from "@opencode-ai/sdk/client"
 
-const host = import.meta.env.VITE_axoncode_SERVER_HOST ?? "127.0.0.1"
-const port = import.meta.env.VITE_axoncode_SERVER_PORT ?? "4096"
+const host = import.meta.env.VITE_OPENCODE_SERVER_HOST ?? "127.0.0.1"
+const port = import.meta.env.VITE_OPENCODE_SERVER_PORT ?? "4096"
 
 function init() {
-  const client = createaxoncodeClient({
+  const client = createOpencodeClient({
     baseUrl: `http://${host}:${port}`,
   })
   return client

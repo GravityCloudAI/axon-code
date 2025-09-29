@@ -8,7 +8,7 @@ import { IconCopy, IconCheck } from "../component/icon"
 import { createAsync, query } from "@solidjs/router"
 import { getActor } from "~/context/auth"
 import { withActor } from "~/context/auth.withActor"
-import { Account } from "@axoncode/console-core/account.js"
+import { Account } from "@opencode/console-core/account.js"
 
 function CopyStatus() {
   return (
@@ -52,25 +52,31 @@ export default function Home() {
 
   return (
     <main data-page="home">
-      <Title>axoncode | AI coding agent built for the terminal</Title>
+      <Title>opencode | AI coding agent built for the terminal</Title>
 
       <div data-component="content">
         <section data-component="top">
-          <img data-slot="logo light" src={logoLight} alt="axoncode logo light" />
-          <img data-slot="logo dark" src={logoDark} alt="axoncode logo dark" />
+          <img data-slot="logo light" src={logoLight} alt="opencode logo light" />
+          <img data-slot="logo dark" src={logoDark} alt="opencode logo dark" />
           <h1 data-slot="title">The AI coding agent built for the terminal</h1>
+          <div data-slot="login">
+            <a href="/auth">opencode zen</a>
+          </div>
         </section>
 
         <section data-component="cta">
           <div data-slot="left">
             <a href="/docs">Get Started</a>
           </div>
+          <div data-slot="center">
+            <a href="/auth">opencode zen</a>
+          </div>
           <div data-slot="right">
             <button data-copy data-slot="command">
               <span>
                 <span>curl -fsSL </span>
                 <span data-slot="protocol">https://</span>
-                <span data-slot="highlight">axoncode.ai/install</span>
+                <span data-slot="highlight">opencode.ai/install</span>
                 <span> | bash</span>
               </span>
               <CopyStatus />
@@ -87,7 +93,21 @@ export default function Home() {
               <strong>LSP enabled</strong> Automatically loads the right LSPs for the LLM
             </li>
             <li>
+              <strong>opencode zen</strong> A <a href="/docs/zen">curated list of models</a> provided by opencode{" "}
+              <label>New</label>
+            </li>
+            <li>
               <strong>Multi-session</strong> Start multiple agents in parallel on the same project
+            </li>
+            <li>
+              <strong>Shareable links</strong> Share a link to any sessions for reference or to debug
+            </li>
+            <li>
+              <strong>Claude Pro</strong> Log in with Anthropic to use your Claude Pro or Max account
+            </li>
+            <li>
+              <strong>Use any model</strong> Supports 75+ LLM providers through{" "}
+              <a href="https://models.dev">Models.dev</a>, including local models
             </li>
           </ul>
         </section>
@@ -97,7 +117,7 @@ export default function Home() {
             <h3 data-component="title">npm</h3>
             <button data-copy data-slot="button">
               <span>
-                npm install -g <strong>axoncode-ai</strong>
+                npm install -g <strong>opencode-ai</strong>
               </span>
               <CopyStatus />
             </button>
@@ -106,7 +126,7 @@ export default function Home() {
             <h3 data-component="title">bun</h3>
             <button data-copy data-slot="button">
               <span>
-                bun install -g <strong>axoncode-ai</strong>
+                bun install -g <strong>opencode-ai</strong>
               </span>
               <CopyStatus />
             </button>
@@ -115,7 +135,7 @@ export default function Home() {
             <h3 data-component="title">homebrew</h3>
             <button data-copy data-slot="button">
               <span>
-                brew install <strong>sst/tap/axoncode</strong>
+                brew install <strong>sst/tap/opencode</strong>
               </span>
               <CopyStatus />
             </button>
@@ -124,7 +144,7 @@ export default function Home() {
             <h3 data-component="title">paru</h3>
             <button data-copy data-slot="button">
               <span>
-                paru -S <strong>axoncode-bin</strong>
+                paru -S <strong>opencode-bin</strong>
               </span>
               <CopyStatus />
             </button>
@@ -133,22 +153,22 @@ export default function Home() {
 
         <section data-component="screenshots">
           <figure>
-            <figcaption>axoncode TUI with the tokyonight theme</figcaption>
+            <figcaption>opencode TUI with the tokyonight theme</figcaption>
             <a href="/docs/cli">
-              <img src={IMG_SPLASH} alt="axoncode TUI with tokyonight theme" />
+              <img src={IMG_SPLASH} alt="opencode TUI with tokyonight theme" />
             </a>
           </figure>
         </section>
 
         <footer data-component="footer">
           <div data-slot="cell">
-            <a href="https://x.com/axoncode">X.com</a>
+            <a href="https://x.com/opencode">X.com</a>
           </div>
           <div data-slot="cell">
-            <a href="https://github.com/sst/axoncode">GitHub</a>
+            <a href="https://github.com/sst/opencode">GitHub</a>
           </div>
           <div data-slot="cell">
-            <a href="https://axoncode.ai/discord">Discord</a>
+            <a href="https://opencode.ai/discord">Discord</a>
           </div>
         </footer>
       </div>

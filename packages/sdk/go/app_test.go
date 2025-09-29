@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package axoncode_test
+package opencode_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode-sdk-go/internal/testutil"
-	"github.com/sst/axoncode-sdk-go/option"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode-sdk-go/internal/testutil"
+	"github.com/sst/opencode-sdk-go/option"
 )
 
 func TestAppLogWithOptionalParams(t *testing.T) {
@@ -22,20 +22,20 @@ func TestAppLogWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.App.Log(context.TODO(), axoncode.AppLogParams{
-		Level:     axoncode.F(axoncode.AppLogParamsLevelDebug),
-		Message:   axoncode.F("message"),
-		Service:   axoncode.F("service"),
-		Directory: axoncode.F("directory"),
-		Extra: axoncode.F(map[string]interface{}{
+	_, err := client.App.Log(context.TODO(), opencode.AppLogParams{
+		Level:     opencode.F(opencode.AppLogParamsLevelDebug),
+		Message:   opencode.F("message"),
+		Service:   opencode.F("service"),
+		Directory: opencode.F("directory"),
+		Extra: opencode.F(map[string]interface{}{
 			"foo": "bar",
 		}),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -52,14 +52,14 @@ func TestAppProvidersWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.App.Providers(context.TODO(), axoncode.AppProvidersParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.App.Providers(context.TODO(), opencode.AppProvidersParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

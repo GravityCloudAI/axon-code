@@ -3,13 +3,13 @@ title: Models
 description: Configuring an LLM provider and model.
 ---
 
-axoncode uses the [AI SDK](https://ai-sdk.dev/) and [Models.dev](https://models.dev) to support for **75+ LLM providers** and it supports running local models.
+opencode uses the [AI SDK](https://ai-sdk.dev/) and [Models.dev](https://models.dev) to support for **75+ LLM providers** and it supports running local models.
 
 ---
 
 ## Providers
 
-Most popular providers are preloaded by default. If you've added the credentials for a provider through `axoncode auth login`, they'll be available when you start axoncode.
+Most popular providers are preloaded by default. If you've added the credentials for a provider through `opencode auth login`, they'll be available when you start opencode.
 
 Learn more about [providers](/docs/providers).
 
@@ -35,7 +35,7 @@ Consider using one of the models we recommend.
 
 However, there are a only a few of them that are good at both generating code and tool calling.
 
-Here are the ones we recommend with axoncode:
+Here are the ones we recommend with opencode:
 
 - Claude Sonnet 4
 - Claude Opus 4
@@ -49,11 +49,11 @@ Here are the ones we recommend with axoncode:
 ## Set a default
 
 To set one of these as the default model, you can set the `model` key in your
-axoncode config.
+opencode config.
 
-```json title="axoncode.json" {3}
+```json title="opencode.json" {3}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "model": "lmstudio/google/gemma-3n-e4b"
 }
 ```
@@ -68,9 +68,9 @@ If you've configured a [custom provider](/docs/providers#custom), the `provider_
 
 You can globally configure a model's options through the config.
 
-```jsonc title="axoncode.jsonc" {7-12,19-24}
+```jsonc title="opencode.jsonc" {7-12,19-24}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "provider": {
     "openai": {
       "models": {
@@ -108,15 +108,15 @@ You can also configure these options for any agents that you are using. The agen
 
 ## Loading models
 
-When axoncode starts up, it checks for models in the following priority order:
+When opencode starts up, it checks for models in the following priority order:
 
 1. The `--model` or `-m` command line flag. The format is the same as in the config file: `provider_id/model_id`.
 
-2. The model list in the axoncode config.
+2. The model list in the opencode config.
 
-   ```json title="axoncode.json"
+   ```json title="opencode.json"
    {
-     "$schema": "https://axoncode.ai/config.json",
+     "$schema": "https://opencode.ai/config.json",
      "model": "anthropic/claude-sonnet-4-20250514"
    }
    ```

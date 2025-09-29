@@ -1,8 +1,8 @@
 import { query, useParams, createAsync } from "@solidjs/router"
 import { createMemo, createSignal, Show } from "solid-js"
 import { IconCopy, IconCheck } from "~/component/icon"
-import { Key } from "@axoncode/console-core/key.js"
-import { Billing } from "@axoncode/console-core/billing.js"
+import { Key } from "@opencode/console-core/key.js"
+import { Billing } from "@opencode/console-core/billing.js"
 import { withActor } from "~/context/auth.withActor"
 import styles from "./new-user-section.module.css"
 
@@ -44,7 +44,7 @@ export function NewUserSection() {
           </div>
           <div data-slot="feature">
             <h3>No Lock-in</h3>
-            <p>Use Zen with any coding agent, and continue using other providers with axoncode whenever you want.</p>
+            <p>Use Zen with any coding agent, and continue using other providers with opencode whenever you want.</p>
           </div>
         </div>
 
@@ -83,11 +83,11 @@ export function NewUserSection() {
           <ol>
             <li>Enable billing</li>
             <li>
-              Run <code>axoncode auth login</code> and select axoncode
+              Run <code>opencode auth login</code> and select opencode
             </li>
             <li>Paste your API key</li>
             <li>
-              Start axoncode and run <code>/models</code> to select a model
+              Start opencode and run <code>/models</code> to select a model
             </li>
           </ol>
         </div>

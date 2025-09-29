@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package axoncode_test
+package opencode_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode-sdk-go/internal/testutil"
-	"github.com/sst/axoncode-sdk-go/option"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode-sdk-go/internal/testutil"
+	"github.com/sst/opencode-sdk-go/option"
 )
 
 func TestTuiAppendPromptWithOptionalParams(t *testing.T) {
@@ -22,15 +22,15 @@ func TestTuiAppendPromptWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.AppendPrompt(context.TODO(), axoncode.TuiAppendPromptParams{
-		Text:      axoncode.F("text"),
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.AppendPrompt(context.TODO(), opencode.TuiAppendPromptParams{
+		Text:      opencode.F("text"),
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -47,14 +47,14 @@ func TestTuiClearPromptWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.ClearPrompt(context.TODO(), axoncode.TuiClearPromptParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.ClearPrompt(context.TODO(), opencode.TuiClearPromptParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -71,15 +71,15 @@ func TestTuiExecuteCommandWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.ExecuteCommand(context.TODO(), axoncode.TuiExecuteCommandParams{
-		Command:   axoncode.F("command"),
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.ExecuteCommand(context.TODO(), opencode.TuiExecuteCommandParams{
+		Command:   opencode.F("command"),
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -96,14 +96,14 @@ func TestTuiOpenHelpWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.OpenHelp(context.TODO(), axoncode.TuiOpenHelpParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.OpenHelp(context.TODO(), opencode.TuiOpenHelpParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -120,14 +120,14 @@ func TestTuiOpenModelsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.OpenModels(context.TODO(), axoncode.TuiOpenModelsParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.OpenModels(context.TODO(), opencode.TuiOpenModelsParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -144,14 +144,14 @@ func TestTuiOpenSessionsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.OpenSessions(context.TODO(), axoncode.TuiOpenSessionsParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.OpenSessions(context.TODO(), opencode.TuiOpenSessionsParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -168,14 +168,14 @@ func TestTuiOpenThemesWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.OpenThemes(context.TODO(), axoncode.TuiOpenThemesParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.OpenThemes(context.TODO(), opencode.TuiOpenThemesParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -192,17 +192,17 @@ func TestTuiShowToastWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.ShowToast(context.TODO(), axoncode.TuiShowToastParams{
-		Message:   axoncode.F("message"),
-		Variant:   axoncode.F(axoncode.TuiShowToastParamsVariantInfo),
-		Directory: axoncode.F("directory"),
-		Title:     axoncode.F("title"),
+	_, err := client.Tui.ShowToast(context.TODO(), opencode.TuiShowToastParams{
+		Message:   opencode.F("message"),
+		Variant:   opencode.F(opencode.TuiShowToastParamsVariantInfo),
+		Directory: opencode.F("directory"),
+		Title:     opencode.F("title"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -219,14 +219,14 @@ func TestTuiSubmitPromptWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := axoncode.NewClient(
+	client := opencode.NewClient(
 		option.WithBaseURL(baseURL),
 	)
-	_, err := client.Tui.SubmitPrompt(context.TODO(), axoncode.TuiSubmitPromptParams{
-		Directory: axoncode.F("directory"),
+	_, err := client.Tui.SubmitPrompt(context.TODO(), opencode.TuiSubmitPromptParams{
+		Directory: opencode.F("directory"),
 	})
 	if err != nil {
-		var apierr *axoncode.Error
+		var apierr *opencode.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

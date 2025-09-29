@@ -1,12 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@axoncode/console-core",
+  "name": "@opencode/console-core",
   "version": "0.12.1",
   "private": true,
   "type": "module",
   "dependencies": {
     "@aws-sdk/client-sts": "3.782.0",
-    "@axoncode/console-resource": "workspace:*",
+    "@opencode/console-resource": "workspace:*",
     "@planetscale/database": "1.19.0",
     "drizzle-orm": "0.41.0",
     "postgres": "3.4.7",

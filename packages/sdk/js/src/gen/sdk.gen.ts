@@ -671,7 +671,7 @@ class Event extends _HeyApiClient {
   }
 }
 
-export class axoncodeClient extends _HeyApiClient {
+export class OpencodeClient extends _HeyApiClient {
   /**
    * Respond to a permission request
    */

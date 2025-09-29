@@ -31,7 +31,7 @@ export default defineConfig({
     configSchema(),
     solidJs(),
     starlight({
-      title: "axoncode",
+      title: "opencode",
       lastUpdated: true,
       expressiveCode: { themes: ["github-light", "github-dark"] },
       social: [
@@ -107,7 +107,7 @@ export default defineConfig({
     }),
   ],
   redirects: {
-    "/discord": "https://discord.gg/axoncode",
+    "/discord": "https://discord.gg/opencode",
   },
 })
 
@@ -117,7 +117,7 @@ function configSchema() {
     hooks: {
       "astro:build:done": async () => {
         console.log("generating config schema")
-        spawnSync("../axoncode/script/schema.ts", ["./dist/config.json"])
+        spawnSync("../opencode/script/schema.ts", ["./dist/config.json"])
       },
     },
   }

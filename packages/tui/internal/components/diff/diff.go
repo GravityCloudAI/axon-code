@@ -20,9 +20,9 @@ import (
 	"github.com/charmbracelet/lipgloss/v2/compat"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/sergi/go-diff/diffmatchpatch"
-	stylesi "github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	stylesi "github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 // -------------------------------------------------------------------------
@@ -323,7 +323,7 @@ func SyntaxHighlight(w io.Writer, source, fileName, formatter string, bg color.C
 
 	// Dynamic theme based on current theme values
 	syntaxThemeXml := fmt.Sprintf(`
-	<style name="axoncode-theme">
+	<style name="opencode-theme">
 	<!-- Base colors -->
 	<entry type="Background" style="bg:%s"/>
 	<entry type="Text" style="%s"/>

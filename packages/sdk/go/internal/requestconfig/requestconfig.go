@@ -18,16 +18,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sst/axoncode-sdk-go/internal"
-	"github.com/sst/axoncode-sdk-go/internal/apierror"
-	"github.com/sst/axoncode-sdk-go/internal/apiform"
-	"github.com/sst/axoncode-sdk-go/internal/apiquery"
-	"github.com/sst/axoncode-sdk-go/internal/param"
+	"github.com/sst/opencode-sdk-go/internal"
+	"github.com/sst/opencode-sdk-go/internal/apierror"
+	"github.com/sst/opencode-sdk-go/internal/apiform"
+	"github.com/sst/opencode-sdk-go/internal/apiquery"
+	"github.com/sst/opencode-sdk-go/internal/param"
 )
 
 func getDefaultHeaders() map[string]string {
 	return map[string]string{
-		"User-Agent": fmt.Sprintf("axoncode/Go %s", internal.PackageVersion),
+		"User-Agent": fmt.Sprintf("Opencode/Go %s", internal.PackageVersion),
 	}
 }
 

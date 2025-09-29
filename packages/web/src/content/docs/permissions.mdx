@@ -3,7 +3,7 @@ title: Permissions
 description: Control what agents can do in your codebase.
 ---
 
-By default, axoncode **allows all operations** without requiring explicit approval.
+By default, opencode **allows all operations** without requiring explicit approval.
 
 The permissions system provides granular control to restrict what actions AI agents can perform in your codebase, allowing you to configure explicit approval requirements for sensitive operations like file editing, bash commands, and more.
 
@@ -11,7 +11,7 @@ The permissions system provides granular control to restrict what actions AI age
 
 ## Configure
 
-Permissions are configured in your `axoncode.json` file under the `permission` key. Here are the available options.
+Permissions are configured in your `opencode.json` file under the `permission` key. Here are the available options.
 
 ### Tool Permission Support
 
@@ -33,9 +33,9 @@ Use the `permission.edit` key to control whether file editing operations require
 - `"allow"` - Allow all file editing operations without approval
 - `"deny"` - Make all file editing tools disabled and unavailable
 
-```json title="axoncode.json" {4}
+```json title="opencode.json" {4}
 {
-  "$schema": "https://axoncode.ai/config.json",
+  "$schema": "https://opencode.ai/config.json",
   "permission": {
     "edit": "ask"
   }
@@ -59,9 +59,9 @@ For example.
 
 - **Ask for approval for all commands**
 
-  ```json title="axoncode.json"
+  ```json title="opencode.json"
   {
-    "$schema": "https://axoncode.ai/config.json",
+    "$schema": "https://opencode.ai/config.json",
     "permission": {
       "bash": "ask"
     }
@@ -70,9 +70,9 @@ For example.
 
 - **Disable all Terraform commands**
 
-  ```json title="axoncode.json"
+  ```json title="opencode.json"
   {
-    "$schema": "https://axoncode.ai/config.json",
+    "$schema": "https://opencode.ai/config.json",
     "permission": {
       "bash": {
         "terraform *": "deny"
@@ -83,9 +83,9 @@ For example.
 
 - **Approve specific commands**
 
-  ```json title="axoncode.json"
+  ```json title="opencode.json"
   {
-    "$schema": "https://axoncode.ai/config.json",
+    "$schema": "https://opencode.ai/config.json",
     "permission": {
       "bash": {
         "git status": "allow",
@@ -100,9 +100,9 @@ For example.
 
 - **Use wildcard patterns to restrict specific commands**
 
-  ```json title="axoncode.json"
+  ```json title="opencode.json"
   {
-    "$schema": "https://axoncode.ai/config.json",
+    "$schema": "https://opencode.ai/config.json",
     "permission": {
       "bash": {
         "git push": "ask",

@@ -13,4 +13,4 @@
 
 ## Debugging
 
-- To test axoncode in the `packages/axoncode` directory you can run `bun dev`
+- To test opencode in the `packages/opencode` directory you can run `bun dev`

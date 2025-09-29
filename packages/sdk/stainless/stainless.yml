@@ -1,23 +1,23 @@
 # yaml-language-server: $schema=https://app.stainless.com/config-internal.schema.json
 
 organization:
-  name: axoncode
-  docs: "https://axoncode.ai/docs"
+  name: opencode
+  docs: "https://opencode.ai/docs"
   contact: "support@sst.dev"
 
 targets:
   typescript:
     package_name: "@opencode-ai/sdk"
-    production_repo: "sst/axoncode-sdk-js"
+    production_repo: "sst/opencode-sdk-js"
     publish:
       npm: true
   go:
-    package_name: axoncode
-    production_repo: sst/axoncode-sdk-go
+    package_name: opencode
+    production_repo: sst/opencode-sdk-go
   python:
-    project_name: axoncode-ai
-    package_name: axoncode_ai
-    production_repo: sst/axoncode-sdk-python
+    project_name: opencode-ai
+    package_name: opencode_ai
+    production_repo: sst/opencode-sdk-python
     publish:
       pypi: true
 

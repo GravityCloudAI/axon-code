@@ -15,21 +15,21 @@ import (
 	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 
-	"github.com/sst/axoncode-sdk-go"
-	"github.com/sst/axoncode/internal/api"
-	"github.com/sst/axoncode/internal/app"
-	"github.com/sst/axoncode/internal/commands"
-	"github.com/sst/axoncode/internal/completions"
-	"github.com/sst/axoncode/internal/components/chat"
-	cmdcomp "github.com/sst/axoncode/internal/components/commands"
-	"github.com/sst/axoncode/internal/components/dialog"
-	"github.com/sst/axoncode/internal/components/modal"
-	"github.com/sst/axoncode/internal/components/status"
-	"github.com/sst/axoncode/internal/components/toast"
-	"github.com/sst/axoncode/internal/layout"
-	"github.com/sst/axoncode/internal/styles"
-	"github.com/sst/axoncode/internal/theme"
-	"github.com/sst/axoncode/internal/util"
+	"github.com/sst/opencode-sdk-go"
+	"github.com/sst/opencode/internal/api"
+	"github.com/sst/opencode/internal/app"
+	"github.com/sst/opencode/internal/commands"
+	"github.com/sst/opencode/internal/completions"
+	"github.com/sst/opencode/internal/components/chat"
+	cmdcomp "github.com/sst/opencode/internal/components/commands"
+	"github.com/sst/opencode/internal/components/dialog"
+	"github.com/sst/opencode/internal/components/modal"
+	"github.com/sst/opencode/internal/components/status"
+	"github.com/sst/opencode/internal/components/toast"
+	"github.com/sst/opencode/internal/layout"
+	"github.com/sst/opencode/internal/styles"
+	"github.com/sst/opencode/internal/theme"
+	"github.com/sst/opencode/internal/util"
 )
 
 // InterruptDebounceTimeoutMsg is sent when the interrupt key debounce timeout expires
@@ -82,7 +82,7 @@ type Model struct {
 func (a Model) Init() tea.Cmd {
 	var cmds []tea.Cmd
 	// https://github.com/charmbracelet/bubbletea/issues/1440
-	// https://github.com/sst/axoncode/issues/127
+	// https://github.com/sst/opencode/issues/127
 	if !util.IsWsl() {
 		cmds = append(cmds, tea.RequestBackgroundColor)
 	}
@@ -113,16 +113,16 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if len(a.app.Permissions) > 0 {
 					a.app.CurrentPermission = a.app.Permissions[0]
 				} else {
-					a.app.CurrentPermission = axoncode.Permission{}
+					a.app.CurrentPermission = opencode.Permission{}
 				}
-				response := axoncode.SessionPermissionRespondParamsResponseOnce
+				response := opencode.SessionPermissionRespondParamsResponseOnce
 				switch keyString {
 				case "enter":
-					response = axoncode.SessionPermissionRespondParamsResponseOnce
+					response = opencode.SessionPermissionRespondParamsResponseOnce
 				case "a":
-					response = axoncode.SessionPermissionRespondParamsResponseAlways
+					response = opencode.SessionPermissionRespondParamsResponseAlways
 				case "esc":
-					response = axoncode.SessionPermissionRespondParamsResponseReject
+					response = opencode.SessionPermissionRespondParamsResponseReject
 				}
 
 				return a, func() tea.Msg {
@@ -130,7 +130,7 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						context.Background(),
 						sessionID,
 						permissionID,
-						axoncode.SessionPermissionRespondParams{Response: axoncode.F(response)},
+						opencode.SessionPermissionRespondParams{Response: opencode.F(response)},
 					)
 					if err != nil {
 						slog.Error("Failed to respond to permission request", "error", err)
@@ -393,7 +393,7 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		a.showCompletionDialog = false
 		// If we're in a child session, switch back to parent before sending prompt
 		if a.app.Session.ParentID != "" {
-			parentSession, err := a.app.Client.Session.Get(context.Background(), a.app.Session.ParentID, axoncode.SessionGetParams{})
+			parentSession, err := a.app.Client.Session.Get(context.Background(), a.app.Session.ParentID, opencode.SessionGetParams{})
 			if err != nil {
 				slog.Error("Failed to get parent session", "error", err)
 				return a, toast.NewErrorToast("Failed to get parent session")
@@ -411,7 +411,7 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case app.SendCommand:
 		// If we're in a child session, switch back to parent before sending prompt
 		if a.app.Session.ParentID != "" {
-			parentSession, err := a.app.Client.Session.Get(context.Background(), a.app.Session.ParentID, axoncode.SessionGetParams{})
+			parentSession, err := a.app.Client.Session.Get(context.Background(), a.app.Session.ParentID, opencode.SessionGetParams{})
 			if err != nil {
 				slog.Error("Failed to get parent session", "error", err)
 				return a, toast.NewErrorToast("Failed to get parent session")
@@ -429,7 +429,7 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case app.SendShell:
 		// If we're in a child session, switch back to parent before sending prompt
 		if a.app.Session.ParentID != "" {
-			parentSession, err := a.app.Client.Session.Get(context.Background(), a.app.Session.ParentID, axoncode.SessionGetParams{})
+			parentSession, err := a.app.Client.Session.Get(context.Background(), a.app.Session.ParentID, opencode.SessionGetParams{})
 			if err != nil {
 				slog.Error("Failed to get parent session", "error", err)
 				return a, toast.NewErrorToast("Failed to get parent session")
@@ -451,59 +451,59 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		a.editor = updated.(chat.EditorComponent)
 		cmds = append(cmds, cmd)
 	case app.SessionClearedMsg:
-		a.app.Session = &axoncode.Session{}
+		a.app.Session = &opencode.Session{}
 		a.app.Messages = []app.Message{}
 	case dialog.CompletionDialogCloseMsg:
 		a.showCompletionDialog = false
-	case axoncode.EventListResponseEventInstallationUpdated:
+	case opencode.EventListResponseEventInstallationUpdated:
 		return a, toast.NewSuccessToast(
-			"axoncode updated to "+msg.Properties.Version+", restart to apply.",
+			"opencode updated to "+msg.Properties.Version+", restart to apply.",
 			toast.WithTitle("New version installed"),
 		)
 		/*
-			case axoncode.EventListResponseEventIdeInstalled:
+			case opencode.EventListResponseEventIdeInstalled:
 				return a, toast.NewSuccessToast(
-					"Installed the axoncode extension in "+msg.Properties.Ide,
+					"Installed the opencode extension in "+msg.Properties.Ide,
 					toast.WithTitle(msg.Properties.Ide+" extension installed"),
 				)
 		*/
-	case axoncode.EventListResponseEventSessionDeleted:
+	case opencode.EventListResponseEventSessionDeleted:
 		if a.app.Session != nil && msg.Properties.Info.ID == a.app.Session.ID {
-			a.app.Session = &axoncode.Session{}
+			a.app.Session = &opencode.Session{}
 			a.app.Messages = []app.Message{}
 		}
 		return a, toast.NewSuccessToast("Session deleted successfully")
-	case axoncode.EventListResponseEventSessionUpdated:
+	case opencode.EventListResponseEventSessionUpdated:
 		if msg.Properties.Info.ID == a.app.Session.ID {
 			a.app.Session = &msg.Properties.Info
 		}
-	case axoncode.EventListResponseEventMessagePartUpdated:
+	case opencode.EventListResponseEventMessagePartUpdated:
 		slog.Debug("message part updated", "message", msg.Properties.Part.MessageID, "part", msg.Properties.Part.ID)
 		if msg.Properties.Part.SessionID == a.app.Session.ID {
 			messageIndex := slices.IndexFunc(a.app.Messages, func(m app.Message) bool {
 				switch casted := m.Info.(type) {
-				case axoncode.UserMessage:
+				case opencode.UserMessage:
 					return casted.ID == msg.Properties.Part.MessageID
-				case axoncode.AssistantMessage:
+				case opencode.AssistantMessage:
 					return casted.ID == msg.Properties.Part.MessageID
 				}
 				return false
 			})
 			if messageIndex > -1 {
 				message := a.app.Messages[messageIndex]
-				partIndex := slices.IndexFunc(message.Parts, func(p axoncode.PartUnion) bool {
+				partIndex := slices.IndexFunc(message.Parts, func(p opencode.PartUnion) bool {
 					switch casted := p.(type) {
-					case axoncode.TextPart:
+					case opencode.TextPart:
 						return casted.ID == msg.Properties.Part.ID
-					case axoncode.ReasoningPart:
+					case opencode.ReasoningPart:
 						return casted.ID == msg.Properties.Part.ID
-					case axoncode.FilePart:
+					case opencode.FilePart:
 						return casted.ID == msg.Properties.Part.ID
-					case axoncode.ToolPart:
+					case opencode.ToolPart:
 						return casted.ID == msg.Properties.Part.ID
-					case axoncode.StepStartPart:
+					case opencode.StepStartPart:
 						return casted.ID == msg.Properties.Part.ID
-					case axoncode.StepFinishPart:
+					case opencode.StepFinishPart:
 						return casted.ID == msg.Properties.Part.ID
 					}
 					return false
@@ -517,33 +517,33 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				a.app.Messages[messageIndex] = message
 			}
 		}
-	case axoncode.EventListResponseEventMessagePartRemoved:
+	case opencode.EventListResponseEventMessagePartRemoved:
 		slog.Debug("message part removed", "session", msg.Properties.SessionID, "message", msg.Properties.MessageID, "part", msg.Properties.PartID)
 		if msg.Properties.SessionID == a.app.Session.ID {
 			messageIndex := slices.IndexFunc(a.app.Messages, func(m app.Message) bool {
 				switch casted := m.Info.(type) {
-				case axoncode.UserMessage:
+				case opencode.UserMessage:
 					return casted.ID == msg.Properties.MessageID
-				case axoncode.AssistantMessage:
+				case opencode.AssistantMessage:
 					return casted.ID == msg.Properties.MessageID
 				}
 				return false
 			})
 			if messageIndex > -1 {
 				message := a.app.Messages[messageIndex]
-				partIndex := slices.IndexFunc(message.Parts, func(p axoncode.PartUnion) bool {
+				partIndex := slices.IndexFunc(message.Parts, func(p opencode.PartUnion) bool {
 					switch casted := p.(type) {
-					case axoncode.TextPart:
+					case opencode.TextPart:
 						return casted.ID == msg.Properties.PartID
-					case axoncode.ReasoningPart:
+					case opencode.ReasoningPart:
 						return casted.ID == msg.Properties.PartID
-					case axoncode.FilePart:
+					case opencode.FilePart:
 						return casted.ID == msg.Properties.PartID
-					case axoncode.ToolPart:
+					case opencode.ToolPart:
 						return casted.ID == msg.Properties.PartID
-					case axoncode.StepStartPart:
+					case opencode.StepStartPart:
 						return casted.ID == msg.Properties.PartID
-					case axoncode.StepFinishPart:
+					case opencode.StepFinishPart:
 						return casted.ID == msg.Properties.PartID
 					}
 					return false
@@ -555,14 +555,14 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		}
-	case axoncode.EventListResponseEventMessageRemoved:
+	case opencode.EventListResponseEventMessageRemoved:
 		slog.Debug("message removed", "session", msg.Properties.SessionID, "message", msg.Properties.MessageID)
 		if msg.Properties.SessionID == a.app.Session.ID {
 			messageIndex := slices.IndexFunc(a.app.Messages, func(m app.Message) bool {
 				switch casted := m.Info.(type) {
-				case axoncode.UserMessage:
+				case opencode.UserMessage:
 					return casted.ID == msg.Properties.MessageID
-				case axoncode.AssistantMessage:
+				case opencode.AssistantMessage:
 					return casted.ID == msg.Properties.MessageID
 				}
 				return false
@@ -571,13 +571,13 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				a.app.Messages = append(a.app.Messages[:messageIndex], a.app.Messages[messageIndex+1:]...)
 			}
 		}
-	case axoncode.EventListResponseEventMessageUpdated:
+	case opencode.EventListResponseEventMessageUpdated:
 		if msg.Properties.Info.SessionID == a.app.Session.ID {
 			matchIndex := slices.IndexFunc(a.app.Messages, func(m app.Message) bool {
 				switch casted := m.Info.(type) {
-				case axoncode.UserMessage:
+				case opencode.UserMessage:
 					return casted.ID == msg.Properties.Info.ID
-				case axoncode.AssistantMessage:
+				case opencode.AssistantMessage:
 					return casted.ID == msg.Properties.Info.ID
 				}
 				return false
@@ -595,9 +595,9 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				// Extract the new message ID
 				var newMessageID string
 				switch casted := msg.Properties.Info.AsUnion().(type) {
-				case axoncode.UserMessage:
+				case opencode.UserMessage:
 					newMessageID = casted.ID
-				case axoncode.AssistantMessage:
+				case opencode.AssistantMessage:
 					newMessageID = casted.ID
 				}
 
@@ -607,9 +607,9 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				for i := len(a.app.Messages) - 1; i >= 0; i-- {
 					var existingID string
 					switch casted := a.app.Messages[i].Info.(type) {
-					case axoncode.UserMessage:
+					case opencode.UserMessage:
 						existingID = casted.ID
-					case axoncode.AssistantMessage:
+					case opencode.AssistantMessage:
 						existingID = casted.ID
 					}
 					if existingID < newMessageID {
@@ -621,20 +621,20 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				// Create the new message
 				newMessage := app.Message{
 					Info:  msg.Properties.Info.AsUnion(),
-					Parts: []axoncode.PartUnion{},
+					Parts: []opencode.PartUnion{},
 				}
 
 				// Insert at the correct position
 				a.app.Messages = append(a.app.Messages[:insertIndex], append([]app.Message{newMessage}, a.app.Messages[insertIndex:]...)...)
 			}
 		}
-	case axoncode.EventListResponseEventPermissionUpdated:
+	case opencode.EventListResponseEventPermissionUpdated:
 		slog.Debug("permission updated", "session", msg.Properties.SessionID, "permission", msg.Properties.ID)
 		a.app.Permissions = append(a.app.Permissions, msg.Properties)
 		a.app.CurrentPermission = a.app.Permissions[0]
 		a.editor.Blur()
-	case axoncode.EventListResponseEventPermissionReplied:
-		index := slices.IndexFunc(a.app.Permissions, func(p axoncode.Permission) bool {
+	case opencode.EventListResponseEventPermissionReplied:
+		index := slices.IndexFunc(a.app.Permissions, func(p opencode.Permission) bool {
 			return p.ID == msg.Properties.PermissionID
 		})
 		if index > -1 {
@@ -644,20 +644,20 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if len(a.app.Permissions) > 0 {
 				a.app.CurrentPermission = a.app.Permissions[0]
 			} else {
-				a.app.CurrentPermission = axoncode.Permission{}
+				a.app.CurrentPermission = opencode.Permission{}
 			}
 		}
-	case axoncode.EventListResponseEventSessionError:
+	case opencode.EventListResponseEventSessionError:
 		switch err := msg.Properties.Error.AsUnion().(type) {
 		case nil:
-		case axoncode.ProviderAuthError:
+		case opencode.ProviderAuthError:
 			slog.Error("Failed to authenticate with provider", "error", err.Data.Message)
 			return a, toast.NewErrorToast("Provider error: " + err.Data.Message)
-		case axoncode.UnknownError:
+		case opencode.UnknownError:
 			slog.Error("Server error", "name", err.Name, "message", err.Data.Message)
 			return a, toast.NewErrorToast(err.Data.Message, toast.WithTitle(string(err.Name)))
 		}
-	case axoncode.EventListResponseEventSessionCompacted:
+	case opencode.EventListResponseEventSessionCompacted:
 		if msg.Properties.SessionID == a.app.Session.ID {
 			return a, toast.NewSuccessToast("Session compacted successfully")
 		}
@@ -699,22 +699,22 @@ func (a Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// Find next user message after target
 			var nextMessageID string
 			for i := msg.Index + 1; i < len(a.app.Messages); i++ {
-				if userMsg, ok := a.app.Messages[i].Info.(axoncode.UserMessage); ok {
+				if userMsg, ok := a.app.Messages[i].Info.(opencode.UserMessage); ok {
 					nextMessageID = userMsg.ID
 					break
 				}
 			}
 
-			var response *axoncode.Session
+			var response *opencode.Session
 			var err error
 
 			if nextMessageID == "" {
 				// Last message - use unrevert to restore full conversation
-				response, err = a.app.Client.Session.Unrevert(context.Background(), a.app.Session.ID, axoncode.SessionUnrevertParams{})
+				response, err = a.app.Client.Session.Unrevert(context.Background(), a.app.Session.ID, opencode.SessionUnrevertParams{})
 			} else {
 				// Revert to next message to make target the last visible
 				response, err = a.app.Client.Session.Revert(context.Background(), a.app.Session.ID,
-					axoncode.SessionRevertParams{MessageID: axoncode.F(nextMessageID)})
+					opencode.SessionRevertParams{MessageID: opencode.F(nextMessageID)})
 			}
 
 			if err != nil || response == nil {
@@ -920,7 +920,7 @@ func (a Model) View() (string, *tea.Cursor) {
 		Render(mainLayout)
 	mainLayout = lipgloss.PlaceHorizontal(
 		a.width,
-		lipgloss.Left,
+		lipgloss.Center,
 		mainLayout,
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -953,16 +953,25 @@ func (a Model) home() (string, int, int) {
 	effectiveWidth := a.width - 4
 	baseStyle := styles.NewStyle().Foreground(t.Text()).Background(t.Background())
 	base := baseStyle.Render
+	muted := styles.NewStyle().Foreground(t.TextMuted()).Background(t.Background()).Render
 
-	logo_text := `
-  █████╗  ██╗  ██╗  ██████╗  ███╗   ██╗  ██████╗  ██████╗  ██████╗  ███████╗
- ██╔══██╗ ╚██╗██╔╝ ██╔═══██╗ ████╗  ██║ ██╔════╝ ██╔═══██╗ ██╔══██╗ ██╔════╝
- ███████║  ╚███╔╝  ██║   ██║ ██╔██╗ ██║ ██║      ██║   ██║ ██║  ██║ █████╗  
- ██╔══██║  ██╔██╗  ██║   ██║ ██║╚██╗██║ ██║      ██║   ██║ ██║  ██║ ██╔══╝  
- ██║  ██║ ██╔╝ ██╗ ╚██████╔╝ ██║ ╚████║ ╚██████╗ ╚██████╔╝ ██████╔╝ ███████╗
- ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═════╝  ╚═╝  ╚═══╝  ╚═════╝  ╚═════╝  ╚═════╝  ╚══════╝`
+	open := `
+                    
+█▀▀█ █▀▀█ █▀▀█ █▀▀▄ 
+█░░█ █░░█ █▀▀▀ █░░█ 
+▀▀▀▀ █▀▀▀ ▀▀▀▀ ▀  ▀ `
 
-	logo := base(logo_text)
+	code := `
+             ▄
+█▀▀▀ █▀▀█ █▀▀█ █▀▀█
+█░░░ █░░█ █░░█ █▀▀▀
+▀▀▀▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀`
+
+	logo := lipgloss.JoinHorizontal(
+		lipgloss.Top,
+		muted(open),
+		base(code),
+	)
 	// cwd := app.Info.Path.Cwd
 	// config := app.Info.Path.Config
 
@@ -976,7 +985,7 @@ func (a Model) home() (string, int, int) {
 	logoAndVersion := strings.Join([]string{logo, version}, "\n")
 	logoAndVersion = lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Left,
+		lipgloss.Center,
 		logoAndVersion,
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -996,7 +1005,7 @@ func (a Model) home() (string, int, int) {
 	)
 	cmds := lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Left,
+		lipgloss.Center,
 		commandsView.View(),
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -1009,13 +1018,13 @@ func (a Model) home() (string, int, int) {
 	lines = append(lines, "")
 	lines = append(lines, "")
 
-	// mainHeight := lipgloss.Height(strings.Join(lines, "\n"))
+	mainHeight := lipgloss.Height(strings.Join(lines, "\n"))
 
 	editorView := a.editor.View()
 	editorWidth := lipgloss.Width(editorView)
 	editorView = lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Left,
+		lipgloss.Center,
 		editorView,
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -1026,14 +1035,14 @@ func (a Model) home() (string, int, int) {
 	mainLayout := lipgloss.Place(
 		effectiveWidth,
 		a.height,
-		lipgloss.Left,
-		lipgloss.Left,
+		lipgloss.Center,
+		lipgloss.Center,
 		baseStyle.Render(strings.Join(lines, "\n")),
 		styles.WhitespaceStyle(t.Background()),
 	)
 
-	editorX := 0
-	editorY := 16  // Fixed Y position from top
+	editorX := max(0, (effectiveWidth-editorWidth)/2)
+	editorY := (a.height / 2) + (mainHeight / 2) - 3
 	editorYDelta := 3
 
 	if editorLines > 1 {
@@ -1080,7 +1089,7 @@ func (a Model) chat() (string, int, int) {
 	editorHeight := max(lines, 5)
 	editorView = lipgloss.PlaceHorizontal(
 		effectiveWidth,
-		lipgloss.Left,
+		lipgloss.Center,
 		editorView,
 		styles.WhitespaceStyle(t.Background()),
 	)
@@ -1207,7 +1216,7 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 		response, err := a.app.Client.Session.Share(
 			context.Background(),
 			a.app.Session.ID,
-			axoncode.SessionShareParams{},
+			opencode.SessionShareParams{},
 		)
 		if err != nil {
 			slog.Error("Failed to share session", "error", err)
@@ -1223,7 +1232,7 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 		_, err := a.app.Client.Session.Unshare(
 			context.Background(),
 			a.app.Session.ID,
-			axoncode.SessionUnshareParams{},
+			opencode.SessionUnshareParams{},
 		)
 		if err != nil {
 			slog.Error("Failed to unshare session", "error", err)
@@ -1249,13 +1258,13 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 		}
 		cmds = append(cmds, func() tea.Msg {
 			parentSessionID := a.app.Session.ID
-			var parentSession *axoncode.Session
+			var parentSession *opencode.Session
 			if a.app.Session.ParentID != "" {
 				parentSessionID = a.app.Session.ParentID
 				session, err := a.app.Client.Session.Get(
 					context.Background(),
 					parentSessionID,
-					axoncode.SessionGetParams{},
+					opencode.SessionGetParams{},
 				)
 				if err != nil {
 					slog.Error("Failed to get parent session", "error", err)
@@ -1269,7 +1278,7 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 			children, err := a.app.Client.Session.Children(
 				context.Background(),
 				parentSessionID,
-				axoncode.SessionChildrenParams{},
+				opencode.SessionChildrenParams{},
 			)
 			if err != nil {
 				slog.Error("Failed to get session children", "error", err)
@@ -1280,7 +1289,7 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 			slices.Reverse(*children)
 
 			// Create combined array: [parent, child1, child2, ...]
-			sessions := []*axoncode.Session{parentSession}
+			sessions := []*opencode.Session{parentSession}
 			for i := range *children {
 				sessions = append(sessions, &(*children)[i])
 			}
@@ -1315,13 +1324,13 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 		}
 		cmds = append(cmds, func() tea.Msg {
 			parentSessionID := a.app.Session.ID
-			var parentSession *axoncode.Session
+			var parentSession *opencode.Session
 			if a.app.Session.ParentID != "" {
 				parentSessionID = a.app.Session.ParentID
 				session, err := a.app.Client.Session.Get(
 					context.Background(),
 					parentSessionID,
-					axoncode.SessionGetParams{},
+					opencode.SessionGetParams{},
 				)
 				if err != nil {
 					slog.Error("Failed to get parent session", "error", err)
@@ -1335,7 +1344,7 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 			children, err := a.app.Client.Session.Children(
 				context.Background(),
 				parentSessionID,
-				axoncode.SessionChildrenParams{},
+				opencode.SessionChildrenParams{},
 			)
 			if err != nil {
 				slog.Error("Failed to get session children", "error", err)
@@ -1346,7 +1355,7 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 			slices.Reverse(*children)
 
 			// Create combined array: [parent, child1, child2, ...]
-			sessions := []*axoncode.Session{parentSession}
+			sessions := []*opencode.Session{parentSession}
 			for i := range *children {
 				sessions = append(sessions, &(*children)[i])
 			}
@@ -1570,10 +1579,10 @@ func formatConversationToMarkdown(messages []app.Message) string {
 		var timestamp time.Time
 
 		switch info := msg.Info.(type) {
-		case axoncode.UserMessage:
+		case opencode.UserMessage:
 			role = "User"
 			timestamp = time.UnixMilli(int64(info.Time.Created))
-		case axoncode.AssistantMessage:
+		case opencode.AssistantMessage:
 			role = "Assistant"
 			timestamp = time.UnixMilli(int64(info.Time.Created))
 		default:
@@ -1586,11 +1595,11 @@ func formatConversationToMarkdown(messages []app.Message) string {
 
 		for _, part := range msg.Parts {
 			switch p := part.(type) {
-			case axoncode.TextPart:
+			case opencode.TextPart:
 				builder.WriteString(p.Text + "\n\n")
-			case axoncode.FilePart:
+			case opencode.FilePart:
 				builder.WriteString(fmt.Sprintf("[File: %s]\n\n", p.Filename))
-			case axoncode.ToolPart:
+			case opencode.ToolPart:
 				builder.WriteString(fmt.Sprintf("[Tool: %s]\n\n", p.Tool))
 			}
 		}
