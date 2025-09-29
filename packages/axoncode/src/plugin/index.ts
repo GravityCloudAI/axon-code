@@ -1,5 +1,5 @@
-import type { Hooks, PluginInput, Plugin as PluginInstance } from "@axoncode-ai/plugin"
-import { createaxoncodeClient } from "@axoncode-ai/sdk"
+import type { Hooks, PluginInput, Plugin as PluginInstance } from "@opencode-ai/plugin"
+import { createaxoncodeClient } from "@opencode-ai/sdk"
 import { BunProc } from "../bun"
 import { Bus } from "../bus"
 import { Config } from "../config/config"
