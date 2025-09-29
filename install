@@ -45,15 +45,16 @@ INSTALL_DIR=$HOME/.axoncode/bin
 mkdir -p "$INSTALL_DIR"
 
 if [ -z "$requested_version" ]; then
-    url="https://github.com/sst/axoncode/releases/latest/download/$filename"
-    specific_version=$(curl -s https://api.github.com/repos/sst/axoncode/releases/latest | sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
+    echo "$filename"
+    url="https://github.com/GravityCloudAI/axon-code/releases/latest/download/$filename"
+    specific_version=$(curl -s https://api.github.com/repos/GravityCloudAI/axon-code/releases/latest | sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
 
     if [[ $? -ne 0 || -z "$specific_version" ]]; then
         echo -e "${RED}Failed to fetch version information${NC}"
         exit 1
     fi
 else
-    url="https://github.com/sst/axoncode/releases/download/v${requested_version}/$filename"
+    url="https://github.com/GravityCloudAI/axon-code/releases/download/v${requested_version}/$filename"
     specific_version=$requested_version
 fi
 
@@ -94,8 +95,32 @@ download_and_install() {
     print_message info "Downloading ${ORANGE}axoncode ${GREEN}version: ${YELLOW}$specific_version ${GREEN}..."
     mkdir -p axoncodetmp && cd axoncodetmp
     curl -# -L -o "$filename" "$url"
-    unzip -q "$filename"
-    mv axoncode "$INSTALL_DIR"
+    
+    # Use unzip with flags to prevent interactive prompts
+    unzip -qqo "$filename" || {
+        print_message error "Failed to extract the archive"
+        cd .. && rm -rf axoncodetmp
+        exit 1
+    }
+    
+    # Extract folder name from filename (remove .zip extension)
+    folder_name="${filename%.zip}"
+    
+    # Check if axoncode binary exists in the extracted folder's bin directory
+    if [[ -f "$folder_name/bin/axoncode" ]]; then
+        mv "$folder_name/bin/axoncode" "$INSTALL_DIR/axoncode"
+    else
+        # Fallback to find command if structure is different
+        axoncode_binary=$(find . -name axoncode -type f -executable | head -n 1)
+        if [[ -z "$axoncode_binary" ]]; then
+            print_message error "Failed to locate axoncode executable in the downloaded archive"
+            cd .. && rm -rf axoncodetmp
+            exit 1
+        fi
+        mv "$axoncode_binary" "$INSTALL_DIR/axoncode"
+    fi
+    
+    chmod +x "$INSTALL_DIR/axoncode"
     cd .. && rm -rf axoncodetmp
 }
 
