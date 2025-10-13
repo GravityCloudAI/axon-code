@@ -407,7 +407,7 @@ export namespace SessionPrompt {
       ...(() => {
         if (input.system) return [input.system]
         if (input.agent.prompt) return [input.agent.prompt]
-        return SystemPrompt.provider(input.modelID)
+        return SystemPrompt.provider()
       })(),
     )
     system.push(...(await SystemPrompt.environment()))
@@ -1607,7 +1607,7 @@ export namespace SessionPrompt {
         [small.providerID]: options,
       },
       messages: [
-        ...SystemPrompt.title(small.providerID).map(
+        ...SystemPrompt.title().map(
           (x): ModelMessage => ({
             role: "system",
             content: x,

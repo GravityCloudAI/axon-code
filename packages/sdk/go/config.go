@@ -1804,6 +1804,8 @@ type KeybindsConfig struct {
 	AgentList string `json:"agent_list"`
 	// Exit the application
 	AppExit string `json:"app_exit"`
+	// Code review
+	CodeReview string `json:"code_review"`
 	// Show help dialog
 	AppHelp string `json:"app_help"`
 	// Open external editor
@@ -1852,10 +1854,6 @@ type KeybindsConfig struct {
 	MessagesRevert string `json:"messages_revert"`
 	// Undo message
 	MessagesUndo string `json:"messages_undo"`
-	// Next recent model
-	ModelCycleRecent string `json:"model_cycle_recent"`
-	// Previous recent model
-	ModelCycleRecentReverse string `json:"model_cycle_recent_reverse"`
 	// List available models
 	ModelList string `json:"model_list"`
 	// Create/update AGENTS.md

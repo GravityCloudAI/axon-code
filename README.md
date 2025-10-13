@@ -34,13 +34,7 @@
 ### Installation
 
 ```bash
-# YOLO
 curl -fsSL https://api.matterai.so/install | bash
-
-# Package managers
-npm i -g axoncode-ai@latest        # or bun/pnpm/yarn
-brew install sst/tap/axoncode      # macOS and Linux
-paru -S axoncode-bin               # Arch Linux
 ```
 
 ### Get Your API Key

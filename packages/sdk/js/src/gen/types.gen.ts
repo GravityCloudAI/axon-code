@@ -27,6 +27,10 @@ export type KeybindsConfig = {
    */
   app_exit?: string
   /**
+   * Code review
+   */
+  code_review?: string
+  /**
    * Open external editor
    */
   editor_open?: string
@@ -126,14 +130,6 @@ export type KeybindsConfig = {
    * List available models
    */
   model_list?: string
-  /**
-   * Next recent model
-   */
-  model_cycle_recent?: string
-  /**
-   * Previous recent model
-   */
-  model_cycle_recent_reverse?: string
   /**
    * List agents
    */

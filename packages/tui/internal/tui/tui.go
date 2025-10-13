@@ -18,6 +18,7 @@ import (
 	"github.com/sst/axoncode-sdk-go"
 	"github.com/sst/axoncode/internal/api"
 	"github.com/sst/axoncode/internal/app"
+	"github.com/sst/axoncode/internal/attachment"
 	"github.com/sst/axoncode/internal/commands"
 	"github.com/sst/axoncode/internal/completions"
 	"github.com/sst/axoncode/internal/components/chat"
@@ -1033,7 +1034,7 @@ func (a Model) home() (string, int, int) {
 	)
 
 	editorX := 0
-	editorY := 16  // Fixed Y position from top
+	editorY := 16 // Fixed Y position from top
 	editorYDelta := 3
 
 	if editorLines > 1 {
@@ -1447,15 +1448,6 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 	case commands.AgentListCommand:
 		agentDialog := dialog.NewAgentDialog(a.app)
 		a.modal = agentDialog
-	case commands.ModelCycleRecentCommand:
-		slog.Debug("ModelCycleRecentCommand triggered")
-		updated, cmd := a.app.CycleRecentModel()
-		a.app = updated
-		cmds = append(cmds, cmd)
-	case commands.ModelCycleRecentReverseCommand:
-		updated, cmd := a.app.CycleRecentModelReverse()
-		a.app = updated
-		cmds = append(cmds, cmd)
 	case commands.ThemeListCommand:
 		themeDialog := dialog.NewThemeDialog()
 		a.modal = themeDialog
@@ -1518,6 +1510,33 @@ func (a Model) executeCommand(command commands.Command) (tea.Model, tea.Cmd) {
 		cmds = append(cmds, cmd)
 	case commands.AppExitCommand:
 		return a, tea.Quit
+	case commands.CodeReviewCommand:
+		if a.app.IsBusy() {
+			return a, toast.NewInfoToast("Agent is busy, please wait...")
+		}
+		cmds = append(cmds, func() tea.Msg {
+			cmd := exec.Command("git", "--no-pager", "diff", "-U2")
+			output, err := cmd.CombinedOutput()
+			if err != nil {
+				slog.Error("Failed to get git diff", "error", err)
+				return toast.NewErrorToast("Failed to get git diff. Make sure you're in a git repository.")()
+			}
+			if len(output) == 0 {
+				return toast.NewInfoToast("No changes to review")()
+			}
+			gitDiff := string(output)
+			reviewPrompt := "Please review the following code changes and provide feedback on:\n" +
+				"- Code quality and best practices\n" +
+				"- Potential bugs or issues\n" +
+				"- Performance concerns\n" +
+				"- Security considerations\n" +
+				"- Suggestions for improvement\n\n" +
+				"```diff\n" + gitDiff + "\n```"
+			return util.CmdHandler(app.SendPrompt{
+				Text:        reviewPrompt,
+				Attachments: []*attachment.Attachment{},
+			})()
+		})
 	}
 	return a, tea.Batch(cmds...)
 }

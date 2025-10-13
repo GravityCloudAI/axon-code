@@ -117,7 +117,6 @@ func (r CommandRegistry) Matches(msg tea.KeyPressMsg, leader bool) []Command {
 const (
 	SessionChildCycleCommand        CommandName = "session_child_cycle"
 	SessionChildCycleReverseCommand CommandName = "session_child_cycle_reverse"
-	ModelCycleRecentReverseCommand  CommandName = "model_cycle_recent_reverse"
 	AgentCycleCommand               CommandName = "agent_cycle"
 	AgentCycleReverseCommand        CommandName = "agent_cycle_reverse"
 	AppHelpCommand                  CommandName = "app_help"
@@ -136,7 +135,6 @@ const (
 	ThinkingBlocksCommand           CommandName = "thinking_blocks"
 	ModelListCommand                CommandName = "model_list"
 	AgentListCommand                CommandName = "agent_list"
-	ModelCycleRecentCommand         CommandName = "model_cycle_recent"
 	ThemeListCommand                CommandName = "theme_list"
 	FileListCommand                 CommandName = "file_list"
 	FileCloseCommand                CommandName = "file_close"
@@ -160,6 +158,7 @@ const (
 	MessagesUndoCommand             CommandName = "messages_undo"
 	MessagesRedoCommand             CommandName = "messages_redo"
 	AppExitCommand                  CommandName = "app_exit"
+	CodeReviewCommand               CommandName = "code_review"
 )
 
 func (k Command) Matches(msg tea.KeyPressMsg, leader bool) bool {
@@ -268,16 +267,6 @@ func LoadFromConfig(config *axoncode.Config, customCommands []axoncode.Command) 
 			Trigger:     []string{"models"},
 		},
 		{
-			Name:        ModelCycleRecentCommand,
-			Description: "next recent model",
-			Keybindings: parseBindings("f2"),
-		},
-		{
-			Name:        ModelCycleRecentReverseCommand,
-			Description: "previous recent model",
-			Keybindings: parseBindings("shift+f2"),
-		},
-		{
 			Name:        AgentListCommand,
 			Description: "list agents",
 			Keybindings: parseBindings("<leader>a"),
@@ -379,6 +368,12 @@ func LoadFromConfig(config *axoncode.Config, customCommands []axoncode.Command) 
 			Description: "exit the app",
 			Keybindings: parseBindings("ctrl+c", "<leader>q"),
 			Trigger:     []string{"exit", "quit", "q"},
+		},
+		{
+			Name:        CodeReviewCommand,
+			Description: "review the code",
+			Keybindings: parseBindings("ctrl+y", "<leader>y"),
+			Trigger:     []string{"review", "code"},
 		},
 	}
 	registry := make(CommandRegistry)
