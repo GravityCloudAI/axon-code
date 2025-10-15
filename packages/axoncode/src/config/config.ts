@@ -575,7 +575,7 @@ export namespace Config {
         npm: "@ai-sdk/openai-compatible",
         name: "MatterAI",
         options: {
-          baseURL: "https://api.matterai.so/v1",
+          baseURL: "https://api.matterai.so/v1/web",
           apiKey: [process.env["MATTERAI_API_KEY"]],
         },
         models: {

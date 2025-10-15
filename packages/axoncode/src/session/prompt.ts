@@ -874,6 +874,8 @@ export namespace SessionPrompt {
         try {
           let currentText: MessageV2.TextPart | undefined
           let reasoningMap: Record<string, MessageV2.ReasoningPart> = {}
+          let currentReasoning: MessageV2.ReasoningPart | undefined
+          let thinkBuffer = ""
 
           for await (const value of stream.fullStream) {
             input.abort.throwIfAborted()
@@ -1068,14 +1070,80 @@ export namespace SessionPrompt {
 
               case "text-delta":
                 if (currentText) {
-                  currentText.text += value.text
-                  if (value.providerMetadata) currentText.metadata = value.providerMetadata
-                  if (currentText.text) await Session.updatePart(currentText)
+                  thinkBuffer += value.text
+
+                  // Process buffer for <think> tags
+                  while (true) {
+                    const thinkStartIdx = thinkBuffer.indexOf("<think>")
+                    const thinkEndIdx = thinkBuffer.indexOf("</think>")
+
+                    // If we have a complete <think>...</think> block
+                    if (thinkStartIdx !== -1 && thinkEndIdx !== -1 && thinkEndIdx > thinkStartIdx) {
+                      // Add any text before <think> to current text part
+                      if (thinkStartIdx > 0) {
+                        const beforeThink = thinkBuffer.slice(0, thinkStartIdx)
+                        currentText.text += beforeThink
+                        if (currentText.text) await Session.updatePart(currentText)
+                      }
+
+                      // Extract reasoning content
+                      const reasoningContent = thinkBuffer.slice(thinkStartIdx + 7, thinkEndIdx)
+
+                      // Create reasoning part if we have content
+                      if (reasoningContent.trim()) {
+                        if (!currentReasoning) {
+                          currentReasoning = {
+                            id: Identifier.ascending("part"),
+                            messageID: assistantMsg.id,
+                            sessionID: assistantMsg.sessionID,
+                            type: "reasoning",
+                            text: reasoningContent,
+                            time: {
+                              start: Date.now(),
+                            },
+                            metadata: value.providerMetadata,
+                          }
+                        } else {
+                          currentReasoning.text += reasoningContent
+                        }
+
+                        if (currentReasoning.text) await Session.updatePart(currentReasoning)
+                      }
+
+                      // Remove processed content from buffer
+                      thinkBuffer = thinkBuffer.slice(thinkEndIdx + 8)
+                    }
+                    // If we have opening tag but no closing tag yet, keep in buffer
+                    else if (thinkStartIdx !== -1) {
+                      // Add any text before <think> to current text part
+                      if (thinkStartIdx > 0) {
+                        const beforeThink = thinkBuffer.slice(0, thinkStartIdx)
+                        currentText.text += beforeThink
+                        if (currentText.text) await Session.updatePart(currentText)
+                        thinkBuffer = thinkBuffer.slice(thinkStartIdx)
+                      }
+                      break
+                    }
+                    // No think tags, add all to text
+                    else {
+                      currentText.text += thinkBuffer
+                      if (value.providerMetadata) currentText.metadata = value.providerMetadata
+                      if (currentText.text) await Session.updatePart(currentText)
+                      thinkBuffer = ""
+                      break
+                    }
+                  }
                 }
                 break
 
               case "text-end":
                 if (currentText) {
+                  // Process any remaining buffer content
+                  if (thinkBuffer) {
+                    currentText.text += thinkBuffer
+                    thinkBuffer = ""
+                  }
+
                   currentText.text = currentText.text.trimEnd()
                   currentText.time = {
                     start: Date.now(),
@@ -1084,6 +1152,19 @@ export namespace SessionPrompt {
                   if (value.providerMetadata) currentText.metadata = value.providerMetadata
                   await Session.updatePart(currentText)
                 }
+
+                // Finalize reasoning part if exists
+                if (currentReasoning) {
+                  currentReasoning.text = currentReasoning.text.trimEnd()
+                  currentReasoning.time = {
+                    ...currentReasoning.time,
+                    end: Date.now(),
+                  }
+                  if (value.providerMetadata) currentReasoning.metadata = value.providerMetadata
+                  await Session.updatePart(currentReasoning)
+                  currentReasoning = undefined
+                }
+
                 currentText = undefined
                 break
 
